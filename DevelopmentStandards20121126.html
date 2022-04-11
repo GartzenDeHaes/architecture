@@ -1,0 +1,2921 @@
+﻿<html><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Development Standards</title>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="shortcut icon" type="image/x-icon" href="http://www.google.com/favicon.ico">
+<style>
+body {
+  background-color: #ffffff;
+  color: black;
+  margin-right: 1in;
+  margin-left: 1in;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #3366ff;
+  font-family: sans-serif;
+}
+
+h1 {
+  text-align: center;
+  font-size: 18pt;
+}
+
+h2 {
+  margin-left: -0.5in;
+  margin-top: 0.5in;
+}
+
+h3 {
+  margin-left: -0.25in;
+}
+
+h4 {
+  margin-left: -0.125in;
+}
+
+hr {
+  margin-left: -1in;
+}
+
+.h2toc {
+  font-size: 12pt;
+  color: #3366ff;
+  font-weight: bold;
+  margin-left: 0.5in;
+  line-height: 200%;
+}
+
+.h3toc {
+  font-size: 11pt;
+  color: #3366ff;
+  font-weight: normal;
+  margin-left: 1in;
+}
+
+/* Use the <code> tag for bits of code and <var> for variables and objects. */
+code,samp,var {
+  color: #005000;
+  font-size: 110%;
+}
+
+PRE {
+  margin-left: 2%;
+  font-size: 10pt;
+  display: block;
+  color: #005000;
+  background-color: #fbfefb;
+  border-color: #fafffa;
+  border-left-width: 1px;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  border-bottom-width: 0px;
+  border-style: solid;
+  border-top: 1px solid #fffaff;
+  border-left: 1px solid #fffaff;
+  border-right: 1px dotted #eff0ef;
+  border-bottom: 1px dotted #eff0ef;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+PRE {
+  -moz-border-radius: 12px;
+}
+
+PRE.badcode {
+  color: #CC0000;
+  background-color: #fffcfc;
+  border-right: 1px solid #f0efef;
+  border-bottom: 1px solid #f0efef;
+  border-top: 1px dotted #faffff;
+  border-left: 1px dotted #faffff;
+}
+
+TABLE {
+  border-collapse: collapse;
+  border-color: #dddddd;
+  border-style: dotted;
+}
+
+TD {
+  border-color: #bbbbbb;
+  border-style: solid;
+  border-width: thin
+}
+
+TH {
+  border-collapse: collapse;
+  border-color: #dddddd;
+  border-style: none;
+  border-width: thin;
+  color: #444444;
+  font-family: sans-serif;
+}
+
+address {
+  text-align: right;
+}
+
+.stylepoint_section {
+  color: #5588ff;
+  font-family: sans-serif;
+  font-size: 90%;
+  font-weight: bold;
+  margin-left: -2%;
+}
+
+.stylepoint_subsection {
+  color: #667799;
+  font-family: sans-serif;
+  font-size: 90%;
+  font-weight: bold;
+  margin-left: -1%;
+}
+
+.showhide_button {
+  border-color: #dddddd;
+  border-style: outset;
+  border-width: medium;
+  cursor: pointer;
+  font-family: sans-serif;
+}
+
+
+.link_button {
+display: none;
+  background-color: #ffffd0;
+  border-color: #fcfca0;
+  border-style: solid;
+  border-width: 1px;
+  font-family: sans-serif;
+  font-size: 75%;
+  font-variant: small-caps;
+  margin-left: -2%;
+  padding-left: 1px;
+  padding-right: 1px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+.toc {
+  background-color: #fcfcff;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.toc_title {
+  font-family: sans-serif;
+  font-size: 110%;
+  font-weight: 700;
+}
+
+.toc_category {
+  margin-left: 5%;
+  font-family: sans-serif;
+}
+
+.toc_stylepoint {
+  margin-left: 5%;
+  font-family: sans-serif;
+  font-size: 90%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+</style>
+<script type="text/javascript" language="javascript">
+
+                function ShowHideByName(bodyName, buttonName) {
+                  var bodyElements = document.getElementsByName(bodyName);
+                  if (bodyElements.length != 1) {
+                    alert("ShowHideByName() got the wrong number of bodyElements:  " + bodyElements.length);
+                  } else {
+                    var bodyElement = bodyElements[0];
+                    var buttonElements = document.getElementsByName(buttonName);
+                    var buttonElement = buttonElements[0];
+                    if (bodyElement.style.display == "none" || bodyElement.style.display == "") {
+                      bodyElement.style.display = "inline";
+                      buttonElement.innerHTML = '▽';
+                    } else {
+                      bodyElement.style.display = "none";
+                      buttonElement.innerHTML = '▶';
+                    }
+                  }
+                }
+
+                function ShowHideAll() {
+                  var allButtons = document.getElementsByName("show_hide_all_button");
+                  var allButton = allButtons[0];
+                  if (allButton.innerHTML == '▽') {
+                    allButton.innerHTML = '▶';
+                    SetHiddenState(document.body.childNodes, "none", '▶');
+                  } else {
+                    allButton.innerHTML = '▽';
+                    SetHiddenState(document.body.childNodes, "inline", '▽');
+                  }
+                }
+
+                // Recursively sets state of all children
+                // of a particular node.
+                function SetHiddenState(root, newState, newButton) {
+                  for (var i = 0; i != root.length; i++) {
+                    SetHiddenState(root[i].childNodes, newState, newButton);
+                    if (root[i].className == 'showhide_button')  {
+                      root[i].innerHTML = newButton;
+                    }
+                    if (root[i].className == 'stylepoint_body')  {
+                      root[i].style.display = newState;
+                    }
+                  }
+                }
+
+                window.onload = function() {
+                  // if the URL contains "?showall=y", expand the details of all children
+                  {
+                    var showHideAllRegex = new RegExp("[\\?&](showall)=([^&#]*)");
+                    var showHideAllValue = showHideAllRegex.exec(window.location.href);
+                    if (showHideAllValue != null) {
+                      if (showHideAllValue[2] == "y") {
+                        SetHiddenState(document.body.childNodes, "inline", '▽');
+                      } else {
+                        SetHiddenState(document.body.childNodes, "none", '▶');
+                      }
+                    }
+                    var showOneRegex = new RegExp("[\\?&](showone)=([^&#]*)");
+                    var showOneValue = showOneRegex.exec(window.location.href);
+                    if (showOneValue != null) {
+                      var body_name = showOneValue[2] + '__body';
+                      var button_name = showOneValue[2] + '__button';
+                      ShowHideByName(body_name, button_name);
+                    }
+                  }
+                }
+              </script></head><body><h1>Development Standards</h1>
+
+<div align="right">
+<address>
+Last update: 11/26/2012
+</address>
+</div>
+
+<div style="margin-left: 50%; font-size: 75%;"><p>
+NOTE: This standard started life as Google's c++ style guide http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml.
+Much of the orignal guide is still present, but many sections were removed or heavily modified.  New sections were added for
+design, ASP.NET, SQL, and unit testing.
+</p></div>
+<div style="margin-left: 50%; font-size: 75%;"><p>
+        Each style point has a summary for which additional information is available
+        by toggling the accompanying arrow button that looks this way:
+        <span style="margin-left: 0pt;" class="showhide_button">▶</span>.
+        You may toggle all summaries with the big arrow button:
+      </p><div style="font-size: larger; margin-left: 2em;"><span id="show_hide_all_button" name="show_hide_all_button" onclick="javascript:ShowHideAll()" style="font-size: 180%;" class="showhide_button">▶</span>
+        Toggle all summaries
+      </div></div><div class="toc"><div class="toc_title">Table of Contents</div>
+	<table><tbody>
+		<tr class="" valign="top"><td><div class="toc_category"><a href="#Design">Design</a></div></td><td><div class="toc_stylepoint">
+			<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Design_Goals">General Design Goals</a></span>
+			<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Design_OpenStandards">Open Standards</a></span>
+			<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Design_Audit">Financial Systems</a></span>
+			<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Design_Logging">User Activity Logging</a></span>
+			<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Design_SecLogging">Security Logging</a></span>
+			<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Design_KISS">Keep It Simple</a></span>
+			<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Design_Org">General Application Organization</a></span>
+			<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#DL_Design_Org">Data Layer Design Pattern</a></span>
+		</div></td></tr>
+
+		<tr class="" valign="top"><td><div class="toc_category"><a href="#Scoping">Scoping</a></div></td><td><div class="toc_stylepoint"><span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Namespaces">Namespaces</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Nested_Classes">Nested Classes</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Local_Variables">Local Variables</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Early_Return">Early Return from Methods</a></span> </div></td></tr>
+		<tr class="" valign="top"><td><div class="toc_category"><a href="#Classes">Classes</a></div></td><td><div class="toc_stylepoint"><span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Doing_Work_in_Constructors">Doing Work in Constructors</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Structs_vs._Classes">Structs vs. Classes</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Inheritance">Inheritance</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Operator_Overloading">Operator Overloading</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Access_Control">Access Control</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Declaration_Order">Declaration Order</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Write_Short_Functions">Write Short Methods</a></span> </div></td></tr>
+		<tr class="" valign="top"><td><div class="toc_category"><a href="#Other_C++_Features">Other C# Features</a></div></td>
+<td><div class="toc_stylepoint"> 
+<span class="" style="padding-right: 1em; white-space: nowrap;"> 
+<span class="" style="padding-right: 1em; white-space: nowrap;">
+<a href="#Exceptions">Exceptions</a></span> 
+<span class="" style="padding-right: 1em; white-space: nowrap;">
+<a href="#LINQ">LINQ</a></span> 
+<span class="" style="padding-right: 1em; white-space: nowrap;">
+<a href="#Run-Time_Type_Information__RTTI_">Reflection</a></span> 
+</div></td></tr>
+		<tr class="" valign="top"><td><div class="toc_category"><a href="#Naming">Naming</a></div></td><td><div class="toc_stylepoint"><span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#General_Naming_Rules">General Naming Rules</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#File_Names">File Names</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Type_Names">Type Names</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Variable_Names">Variable Names</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Constant_Names">Constant Names</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Function_Names">Method Names</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Namespace_Names">Namespace Names</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Enumerator_Names">Enumeration Names</a></span> </div></td></tr>
+		<tr class="" valign="top"><td><div class="toc_category"><a href="#Comments">Comments</a></div></td><td><div class="toc_stylepoint"><span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Comment_Style">Comment Style</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#File_Comments">File Comments</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Class_Comments">Class Comments</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Function_Comments">Method Comments</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Variable_Comments">Variable Comments</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Implementation_Comments">Implementation Comments</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Punctuation,_Spelling_and_Grammar">Punctuation, Spelling and Grammar</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#TODO_Comments">TODO Comments</a></span> </div></td></tr>
+		<tr class="" valign="top"><td><div class="toc_category"><a href="#Formatting">Formatting</a></div></td><td><div class="toc_stylepoint"> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Non-ASCII_Characters">Non-ASCII Characters</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Spaces_vs._Tabs">Spaces vs. Tabs</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Function_Declarations_and_Definitions">Methods Calls</a></span> 
+<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Conditionals">Conditionals</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Loops_and_Switch_Statements">Loops and Switch Statements</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Pointer_and_Reference_Expressions">Reference Expressions</a></span> 
+<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Return_Values">Return Values</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Preprocessor_Directives">Preprocessor Directives</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Class_Format">Class Format</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Namespace_Formatting">Namespace Formatting</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Horizontal_Whitespace">Horizontal Whitespace</a></span> <span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#Vertical_Whitespace">Vertical Whitespace</a></span> 
+		</div></td></tr>
+		<tr class="" valign="top"><td><div class="toc_category"><a href="#SQL">SQL</a></div></td><td><div class="toc_stylepoint">
+			<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#SQL_PRE">Field Prefixes</a></span>
+			<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#SQL_SUF">Field Suffixes</a></span>
+			<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#SQL_General">General Formatting</a></span> 
+			<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#SQL_Return_Value">Return Value</a></span> 
+			<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#SQL_Joins">Joins</a></span> 
+		</div></td></tr>
+		<tr class="" valign="top"><td><div class="toc_category"><a href="#EF">Entity Framework</a></div></td><td><div class="toc_stylepoint">
+		</div></td></tr>
+		<tr class="" valign="top"><td><div class="toc_category"><a href="#ASP">ASP.NET</a></div></td><td><div class="toc_stylepoint">
+			<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#AspPOST">Design of Standard POST Back Pages</a></span>
+			<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#AspAjax">Use of AJAX Designs</a></span>
+			<!--<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#AspAjaxDesign">Design of AJAX Pages</a></span>-->
+			<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#AspCtlNames">Control Names</a></span>
+			<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#AspCodeBehind">Code Behind vs Code In Front</a></span>
+		</div></td></tr>
+		<tr class="" valign="top"><td><div class="toc_category"><a href="#WCF">Services</a></div></td><td><div class="toc_stylepoint">
+			<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#AspWsI">Service Interfaces</a></span>
+			<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#AspWs">Service Code File</a></span>
+			<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#AspSOA">Service Use &amp; SOA</a></span>
+		</div></td></tr>
+		<tr class="" valign="top"><td><div class="toc_category"><a href="#UI">User Interface</a></div></td><td><div class="toc_stylepoint">
+			<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#UiModes">Modes</a></span>
+			<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#UiWeird">No Surprises</a></span>
+		</div></td></tr>
+		<tr class="" valign="top"><td><div class="toc_category"><a href="#UT">Unit Testing</a></div></td><td><div class="toc_stylepoint">
+			<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#UT_Tools">Frameworks</a></span>
+			<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#UT_NMOCK">NMock</a></span>
+			<span class="" style="padding-right: 1em; white-space: nowrap;"><a href="#UT_CI">Continuous Integration</a></span>
+		</div></td></tr>
+
+	</tbody></table></div>
+<h2>Overview</h2>
+<span class=""><h2 id="Important_Note" name="Important_Note">Important Note</h2>
+  <span class=""><h3><a id="Displaying_Hidden_Details_in_this_Guide" name="Displaying_Hidden_Details_in_this_Guide">Displaying Hidden Details in this Guide</a></h3><span id="Displaying_Hidden_Details_in_this_Guide__button" name="Displaying_Hidden_Details_in_this_Guide__button" onclick="javascript:ShowHideByName('Displaying_Hidden_Details_in_this_Guide__body','Displaying_Hidden_Details_in_this_Guide__button')" class="showhide_button">▶</span>
+     <span class="">
+       This style guide contains many details that are initially
+       hidden from view.  They are marked by the triangle icon, which you
+       see here on your left.  Click it now.
+       You should see "Hooray" appear below.
+     </span>
+     <span class=""><br><span style="display: none;" id="Displaying_Hidden_Details_in_this_Guide__body" name="Displaying_Hidden_Details_in_this_Guide__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Displaying_Hidden_Details_in_this_Guide#Displaying_Hidden_Details_in_this_Guide">
+            link
+          </a></span>
+       <p>
+        Hooray!  Now you know you can expand points to get more
+        details.  Alternatively, there's an "expand all" at the
+        top of this document.
+       </p>
+     </span></span>
+  </span>
+</span>
+<span class=""><h2 id="Background" name="Background">Background</h2>
+  <p>
+    As every C# programmer knows, the language has many powerful features.
+    However this power brings with it complexity, which in turn can make code
+    more bug-prone and harder to read and maintain.
+    The goal of this guide is to help reduce this complexity by describing
+    in detail the dos and don'ts of writing C#
+    code. These rules exist to keep the
+    code base manageable while still allowing coders to use C# language
+    features productively.
+  </p>
+  <p>
+  </p>
+  <p>
+    <em>Style</em>, also known as readability, is what we call the
+    conventions that govern our C# code. The term Style is a bit of a
+    misnomer, since these conventions cover far more than just source
+    file formatting.
+  </p>
+  <p>
+    One way in which we keep the code base manageable is by enforcing
+    <em>consistency</em>.
+    
+    It is very important that any programmer
+    be able to look at another's code and quickly understand it.
+    Maintaining a uniform style and following conventions means that we can
+    more easily use "pattern-matching" to infer what various symbols are
+    and what invariants are true about them. Creating common, required
+    idioms and patterns makes code much easier to understand.  In some
+    cases there might be good arguments for changing certain style
+    rules, but we nonetheless keep things as they are in order to
+    preserve consistency.
+  </p>
+</span>
+
+<span class=""><h2 id="Design" name="Design">Design</h2>
+
+  <span class=""><h3><a id="Design_Goals" name="Design_Goals">General Goals</a></h3>
+	<span id="Design_Goals__button" name="Design_Goals__button" class="showhide_button">▽</span>
+  	<span class="">You should choose a specific design objective for your project such as correctness, performance, or maintainability.
+  	Some design objectives are mutually exclusive, so be realistic.  Correctness and maintainability are appropriate for most DOR systems.
+	</span>
+	<span class=""><br><span style="display: none;" id="Design_Goals__body" name="Design_Goals__body" class="stylepoint_body">
+		<span class=""><pre>
+		</pre></span>
+	</span>
+  </span>
+
+  <span class=""><h3><a id="Design_KISS" name="Design_KISS">Keep It Simple</a></h3>
+	<span id="Design_KISS__button" name="Design_KISS__button" class="showhide_button">▽</span>
+  	<span class="">
+		The application should be designed as simply as possible, unless added 
+		complexity makes the application easier to use, easier to maintain, or 
+		more reliable.  Simplicity can be measured by the amount of code, the 
+		number of components, or by the amount of configuration required.
+	</span>      
+	<span class=""><br><span style="display: none;" id="Design_KISS__body" name="Design_KISS__body" class="stylepoint_body">
+		<span class=""><pre>
+		</pre></span>
+	</span>
+  </span>
+
+  <span class=""><h3><a id="Design_OpenStandards" name="Design_OpenStandards">Open Standards</a></h3>
+	<span id="ADesign_OpenStandards__button" name="Design_OpenStandards__button" class="showhide_button">▽</span>
+  	<span class="">Where ever practical, the system should use open standards such as ECMA-334 (C#) and ISO SQL-2003.  Non standard, proprietary language and database features should be avoided. 
+	</span>      
+	<span class=""><br><span style="display: none;" id="Design_OpenStandards__body" name="Design_OpenStandards__body" class="stylepoint_body">
+		<span class=""><pre>
+		</pre></span>
+	</span>
+  </span>
+
+  <span class=""><h3><a id="Design_Audit" name="Design_Audit">Financial Systems</a></h3>
+	<span id="Design_Audit__button" name="Design_Audit__button" class="showhide_button">▽</span>
+  	<span class="">All important data in financial systems should be fully 
+  	auditable.  This means that the original data entered into the system 
+  	can be reconstructed along with all subsequent changes to the data.  To 
+  	do this, record all updates in a jounal table and design the database so that 
+    records are never deleted.
+  	 	</span>      
+	<span class=""><br><span style="display: none;" id="Design_Audit__body" name="Design_Audit__body" class="stylepoint_body">
+		<span class=""><pre>
+		</pre></span>
+	</span>
+  </span>
+
+  <span class=""><h3><a id="Design_Logging" name="Design_Logging">User Activity Logging</a></h3>
+	<span id="Design_Logging__button" name="Design_Logging__button" class="showhide_button">▽</span>
+  	<span class="">To the extent practical, user activity in the system should be logged both for debugging and audit purposes.
+	</span>      
+	<span class=""><br><span style="display: none;" id="Design_Logging__body" name="Design_Logging__body" class="stylepoint_body">
+		<span class=""><pre>
+		</pre></span>
+	</span>
+  </span>
+  
+  <span class=""><h3><a id="Design_SecLogging" name="Design_SecLogging">Security Logging</a></h3>
+	<span id="Design_SecLogging__button" name="Design_SecLogging__button" onclick="javascript:ShowHideByName('Design_SecLogging__body','Design_SecLogging__button')" class="showhide_button">▶</span>
+  	<span class="">Some security events are required to be logged in syslog format and both stored locally
+		and transmitted to a central syslog server.
+	</span>      
+	<span class=""><br><span style="display: none;" id="Design_secLogging__body" name="Design_SecLogging__body" class="stylepoint_body">
+		<span class="">
+		<p>The following events will be syslogged:</p><p>
+		<ul>
+			<li>User account creation.</li>
+			<li>User permissions changes.</li>
+			<li>Help desk access to user information.</li>
+			<li>Help desk changes to user information.</li>
+			<li>User logon with a logon ID and password.</li>
+			<li>User logon failure.</li>
+			<li>Logon ID retreival (forgot logon).</li>
+			<li>Password reset.</li>
+			<li>Access to screens, features, or pages that require checking security permissions.</li>
+			<li>Denied access to screens, features, or pages that require checking security permissions.</li>
+			<li>Application specific audit and security events.</li>
+		</ul></p>
+		</span>
+	</span>
+  </span>
+
+  <span class=""><h3><a id="Design_Org" name="Design_Org">Web Application Organization</a></h3>
+	<span id="Design_Org__button" name="Design_Org__button" onclick="javascript:ShowHideByName('Design_Org__body','Design_Org__button')" class="showhide_button">▶</span>
+  	<span class="">
+		Server-side code should be logically organized into: 
+		presentation or views, 
+		<a href='http://en.wikipedia.org/wiki/MVVM'>view models</a>,  
+		<a href='http://en.wikipedia.org/wiki/Model_view_controller'>controllers</a>, 
+		an object model, and a data factory.  Client-side JavaScript should be 
+		limited as much as possible. (TODO: needs disucssion.)
+	</span>      
+	<span class=""><br><span style="display: none;" id="Design_Org__body" name="Design_Org__body" class="stylepoint_body">
+		<p>
+		</p>
+</span></span></span>
+
+  <span class=""><h3><a id="DL_Design_Org" name="DL_Design_Org">Data Layer Design Pattern</a></h3>
+	<span id="DL_Design_Org__button" name="DL_Design_Org__button" onclick="javascript:ShowHideByName('DL_Design_Org__body','DL_Design_Org__button')" class="showhide_button">▶</span>
+  	<span class="">
+  	In all cases, the data tier should use a factory pattern and support transactions across calls.  
+  	Factory methods should take intrinsic types as arguments and return <a href='http://en.wikipedia.org/wiki/Data_transfer_object'>Data Transfer Objects</a> (DTO's).
+	</span>      
+	<span class=""><br><span style="display: none;" id="DL_Design_Org__body" name="DL_Design_Org__body" class="stylepoint_body">
+		<p>
+			Some of the most common data access designs are:
+		</p>
+		<ul>
+			<li>Inline the stored procedure calls where ever needed.</li>
+			<li>Inline the stored procedure calls in the object model.</li>
+			<li>Create self loading data objects and collections.</li>
+			<li>Create a data factory class that makes all stored procedure 
+			calls and returns business objects.</li>
+		</ul>
+		<p>
+			Our choice is to use a data factory.  The data factory should
+			be implemented with an interface so that a mock factory class
+			can be used for unit testing.  The methods should return either
+			a single object, or an IList of objects.
+		</p>
+		<p>
+		The DOR.Core project contains a common base class 
+		called MsSqlDataAccess to simplify data factory creation.  Partial 
+		classes should be used logically partition the data factory.
+		</p>
+		<span class=""><pre>
+public partial class MyAppDataAccess : MsSqlDataAccess
+{
+	public MyAppDataAccess()
+	{
+	}
+	
+	public User LoadUser(string logonId)
+	{
+		SqlCommand cmd = CreateCommand
+		(
+			"selUserByLogonId",
+			ParameterBuilder.BuildParameter("@User_Logon_ID", user.LogonId)
+		);
+
+		SqlDataReader reader = cmd.ExecuteReader();
+		if (!reader.Read())
+		{
+			reader.Close();
+			return null;
+		}
+
+		User user = new User
+		(
+			(int)reader["USER_ID"],
+			(DateTime)reader["USER_TimeStamp"],
+			(DateTime)reader["USER_CreateDate"]
+		);
+
+		reader.Close();
+		CheckCommandReturnValue(cmd);
+
+		return user;
+	}
+	
+}</pre></span>
+	<span class="">Then in the controler or view model code:</span>
+	<span class=""><pre>using (var data = new DataAccess())
+{
+	User user = data.LoadUser(logonId);
+	ctlUserINfo.User = user;
+}
+</pre></span>
+</span></span></span>
+
+
+<span class=""><h2 id="Scoping" name="Scoping">Scoping</h2>
+  <span class=""><h3><a id="Namespaces" name="Namespaces">Namespaces</a></h3><span id="Namespaces__button" name="Namespaces__button" onclick="javascript:ShowHideByName('Namespaces__body','Namespaces__button')" class="showhide_button">▶</span>
+    <span class="">
+      Namespaces in <code>c#</code> files are required and should be choosen based on the name based on the project, and possibly its path.
+      Fully qualified class names can be used in the code instead of using a <i class="">using</i> directive when many classes from many namepaces are used.
+      Otherwise, use the <i class="">using</i> directive to simply the code.
+    </span>
+    <span class=""><br><span style="display: none;" id="Namespaces__body" name="Namespaces__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Namespaces#Namespaces">
+            link
+          </a></span>
+      <p class=""><span class="stylepoint_section">Definition:  </span>
+        Namespaces subdivide the global scope into distinct, named
+        scopes, and so are useful for preventing name collisions in
+        the global scope.
+      </p>
+      <p class=""><span class="stylepoint_section">Pros:  </span>
+        <p>
+          Namespaces provide a (hierarchical) axis of naming, in
+          addition to the (also hierarchical) name axis provided by
+          classes.
+        </p>
+        <p>
+          For example, if two different projects have a class
+          <code>Foo</code> in the global scope, these symbols may
+          collide at compile time or at runtime.  If each project
+          places their code in a namespace, <code>project1.Foo</code>
+          and <code>project2.Foo</code> are now distinct symbols that
+          do not collide.
+        </p>
+      </p>
+      <p class=""><span class="stylepoint_section">Cons: </span>
+        <p>
+          Namespaces can be confusing, because they provide an
+          additional (hierarchical) axis of naming, in addition to the
+          (also hierarchical) name axis provided by classes.
+        </p>
+      </p>
+      <p class=""><span class="stylepoint_section">Decision:  </span>
+        <p>
+          Use namespaces according to the policy described below.
+        </p>
+
+        <p class=""><span class="stylepoint_subsection">Namespaces</span>
+          <ul>
+            <li> Namespaces are required in
+                 <code>.cs</code> files to avoid runtime naming
+                 conflicts:
+                 <span class=""><pre>namespace Project1
+{
+	// The content of a namespace is indented
+	
+	// Commonly used tokens.
+	enum Status 
+	{ 
+		Unused, 
+		EOF, 
+		Error 
+	}  
+
+	public class Filer 
+	{ 
+		Status _state;
+
+		public bool AtEof() 
+		{ 
+			return _state == Status.EOF; // Uses our namespace's EOF.
+		} 
+	}
+}
+</pre></span>
+                 </li>
+          </ul>
+        </p>
+      </p>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Nested_Classes" name="Nested_Classes">Nested Classes</a></h3><span id="Nested_Classes__button" name="Nested_Classes__button" onclick="javascript:ShowHideByName('Nested_Classes__body','Nested_Classes__button')" class="showhide_button">▶</span>
+    <span class="">
+      Although you may use public nested classes when they are part of
+      an interface, consider a <a href="#Namespaces">namespace</a> to
+      keep declarations out of the global scope.
+    </span>
+    <span class=""><br><span style="display: none;" id="Nested_Classes__body" name="Nested_Classes__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Nested_Classes#Nested_Classes">
+            link
+          </a></span>
+      <p class=""><span class="stylepoint_section">Definition:  </span>
+        A class can define another class within it; this is also
+        called a <i class="">member class</i>.
+        <span class=""><pre>class Foo 
+{
+	// Bar is a member class, nested within Foo.
+	private class Bar 
+	{
+		...
+	}
+
+}</pre></span>
+      </p>
+      <p class=""><span class="stylepoint_section">Pros:  </span>
+        This is useful when the nested (or member) class is only used
+        by the enclosing class; making it a member puts it in the
+        enclosing class scope rather than polluting the outer scope
+        with the class name.
+      </p>
+       <p class=""><span class="stylepoint_section">Decision:  </span>
+        Do not make nested classes public unless they are actually
+        part of the interface, e.g., a class that holds a set of
+        options for some method.       
+      </p>
+    </span></span>
+  </span>
+  
+  <span class=""><h3><a id="Function_Parameter_Ordering" name="Function_Parameter_Ordering">Method Parameter Ordering</a></h3><span id="Function_Parameter_Ordering__button" name="Function_Parameter_Ordering__button" onclick="javascript:ShowHideByName('Function_Parameter_Ordering__body','Function_Parameter_Ordering__button')" class="showhide_button">▶</span>
+    <span class="">
+      When defining a method, parameter order is: inputs,
+      then outputs and references.
+    </span>
+    <span class=""><br><span style="display: none;" id="Function_Parameter_Ordering__body" name="Function_Parameter_Ordering__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Function_Parameter_Ordering#Function_Parameter_Ordering">
+            link
+          </a></span>
+      <p>
+        Parameters to C# methods are either input to the
+        function, output from the function, or both. Output
+        and input/output parameters use <code>ref</code> or <code>out</code>
+        keywords. When ordering function parameters, put all input-only
+        parameters before any output parameters.  In particular, do not add
+        new parameters to the end of the function just because they are
+        new; place new input-only parameters before the output
+        parameters.
+      </p>
+      <p>
+        This is not a hard-and-fast rule.  Parameters that are both
+        input and output (often classes/structs) muddy the waters,
+        and, as always, consistency with related functions may require
+        you to bend the rule.
+      </p>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Local_Variables" name="Local_Variables">Local Variables</a></h3><span id="Local Variables__button" name="Local Variables__button" onclick="javascript:ShowHideByName('Local Variables__body','Local Variables__button')" class="showhide_button">▶</span>
+    <span class="">
+      Place a function's variables in the narrowest scope possible.
+    </span>
+    <span class=""><br><span style="display: none;" id="Local Variables__body" name="Local Variables__body" class="stylepoint_body">
+      <p>
+        C# allows you to declare variables anywhere in a function.
+        We encourage you to declare them in as local a scope as
+        possible, and as close to the first use as possible. This
+        makes it easier for the reader to find the declaration and see
+        what type the variable is and what it was initialized to.  In
+        particular, initialization should be used instead of
+        declaration and assignment, e.g.
+      </p>
+      <span class=""><pre>int i;
+i = f();      // Bad -- initialization separate from declaration.
+int j = g();  // Good -- declaration has initialization.</pre></span>
+
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Early_Return" name="Early_Return">Early Return from Methods</a></h3><span id="Early_Return__button" name="Early_Return__button" onclick="javascript:ShowHideByName('Early_Return__body','Early_Return__button')" class="showhide_button">▶</span>
+    <span class="">
+	Use early return in methods to reduce nesting depth and simplfy code.
+    </span>
+    <span class=""><br><span style="display: none;" id="Early_Return__body" name="Early_Return__body" class="stylepoint_body">
+      <p>
+	Many computer science courses teach a principle from functional 
+	theory that functions and methods should only have one exit or return point.  
+	The intent is to make the function easier understand.  While this may be true
+	for mathmatical functions, in computer programs it cause the programer to create
+	an additional level of nesting for each exit case.  This quickly makes the program
+	difficult to read and difficult to debug.
+      </p>
+      <span class=""><pre>public bool IsAtEof()
+{
+	if (! _isOpen)
+	{
+		return true;	// GOOD: reduce nesting through early exit.
+	}
+	
+	int pos = RecalcFilePos(_file);
+	return pos >= _fileLength;
+}
+</pre></span>
+    </span></span>
+  </span>
+</span>
+
+<span class=""><h2 id="Classes" name="Classes">Classes</h2>
+  Classes are the fundamental unit of code in C# and this section lists the main dos and don'ts you
+  should follow when writing a class.
+
+  <span class=""><h3><a id="Doing_Work_in_Constructors" name="Doing_Work_in_Constructors">Doing Work in Constructors</a></h3><span id="Doing_Work_in_Constructors__button" name="Doing_Work_in_Constructors__button" onclick="javascript:ShowHideByName('Doing_Work_in_Constructors__body','Doing_Work_in_Constructors__button')" class="showhide_button">▶</span>
+    <span class="">
+      There is no need to limit the constructor to trivial initialization.  However, an <code>Init()</code> method can
+      be used if the class instances are pooled or reused.
+    </span>
+    <span class=""><br><span style="display: none;" id="Doing_Work_in_Constructors__body" name="Doing_Work_in_Constructors__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Doing_Work_in_Constructors#Doing_Work_in_Constructors">
+            link
+          </a></span>
+      <p class=""><span class="stylepoint_section">Definition:  </span>
+        It is possible to perform initialization in the body of the
+        constructor.
+      </p>
+      <p class=""><span class="stylepoint_section">Pros:  </span>
+        Convenience in typing.  No need to worry about whether the
+        class has been initialized or not.
+      </p>
+      <p class=""><span class="stylepoint_section">Cons: </span>
+        The problems with doing work in constructors are:
+        <ul>
+          <li>None -- The cons usually identified for initializion in constructor generally don't apply to C#.
+               </li>
+        </ul>
+      </p>
+      <p class=""><span class="stylepoint_section">Decision:  </span>
+        If your object is pooled or reused, consider
+        having an explicit <code>Init()</code> method.  Otherwise, initilized the object in the constructor.
+      </p>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Structs_vs._Classes" name="Structs_vs._Classes">Structs vs. Classes</a></h3><span id="Structs_vs._Classes__button" name="Structs_vs._Classes__button" onclick="javascript:ShowHideByName('Structs_vs._Classes__body','Structs_vs._Classes__button')" class="showhide_button">▶</span>
+    <span class="">
+      Use a <code>struct</code> only for passive objects that carry data;
+      everything else is a <code>class</code>.
+    </span>
+    <span class=""><br><span style="display: none;" id="Structs_vs._Classes__body" name="Structs_vs._Classes__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Structs_vs._Classes#Structs_vs._Classes">
+            link
+          </a></span>
+      <p>
+        The <code>struct</code> and <code>class</code> keywords behave
+        almost identically in C#.  We add our own semantic meanings
+        to each keyword, so you should use the appropriate keyword for
+        the data-type you're defining.
+      </p>
+      <p>
+        <code>structs</code> should be used for passive objects that carry
+        data, and may have associated constants, but lack any functionality
+        other than access/setting the data members. The
+        accessing/setting of fields is done by directly accessing the
+        fields rather than through method invocations. Methods should
+        not provide behavior but should only be used to set up the
+        data members, e.g., constructor, destructor,
+        <code>Initialize()</code>, <code>Reset()</code>,
+        <code>Validate()</code>.
+      </p>
+      <p>
+        If more functionality is required, a <code>class</code> is more
+        appropriate.  If in doubt, make it a <code>class</code>.
+      </p>
+      <p>
+        Note that member variables in structs and classes have
+        <a href="#Variable_Names">different naming rules</a>.
+      </p>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Inheritance" name="Inheritance">Inheritance</a></h3><span id="Inheritance__button" name="Inheritance__button" onclick="javascript:ShowHideByName('Inheritance__body','Inheritance__button')" class="showhide_button">▶</span>
+    <span class="">
+      Composition is often more appropriate than inheritance.
+    </span>
+    <span class=""><br><span style="display: none;" id="Inheritance__body" name="Inheritance__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Inheritance#Inheritance">
+            link
+          </a></span>
+      <p class=""><span class="stylepoint_section">Definition:  </span>
+        When a sub-class inherits from a base class, it includes the
+        definitions of all the data and operations that the parent
+        base class defines.  In practice, inheritance is used in three
+        major ways in C#: implementation inheritance, in which
+        actual code is inherited by the child, and <a href="#Interfaces">interface inheritance</a>, in which only
+        method names are inherited, and abstract classes, which do both.
+      </p>
+      <p class=""><span class="stylepoint_section">Pros:  </span>
+        Implementation inheritance reduces code size by re-using the
+        base class code as it specializes an existing type.  Because
+        inheritance is a compile-time declaration, you and the
+        compiler can understand the operation and detect errors.
+        Interface inheritance can be used to programmatically enforce
+        that a class expose a particular API.  Again, the compiler
+        can detect errors, in this case, when a class does not define
+        a necessary method of the API.
+      </p>
+      <p class=""><span class="stylepoint_section">Cons: </span>
+        For implementation inheritance, because the code implementing
+        a sub-class is spread between the base and the sub-class, it
+        can be more difficult to understand an implementation.  The
+        sub-class cannot override functions that are not virtual, so
+        the sub-class cannot change implementation.  The base class
+        may also define some data members, so that specifies physical
+        layout of the base class.
+      </p>
+      <p class=""><span class="stylepoint_section">Decision:  </span>
+        <p>
+          Do not overuse implementation inheritance.  Composition is
+          often more appropriate. Try to restrict use of inheritance
+          to the "is-a" case: <code>Bar</code> subclasses
+          <code>Foo</code> if it can reasonably be said that
+          <code>Bar</code> "is a kind of" <code>Foo</code>.
+        </p>
+        <p>
+          Limit the use of <code>protected</code> to those member
+          functions that might need to be accessed from subclasses.
+          Note that <a href="#Access_Control">data members must always
+          be private</a>.
+        </p>
+      </p>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Operator_Overloading" name="Operator_Overloading">Operator Overloading</a></h3><span id="Operator_Overloading__button" name="Operator_Overloading__button" onclick="javascript:ShowHideByName('Operator_Overloading__body','Operator_Overloading__button')" class="showhide_button">▶</span>
+    <span class="">
+      Do not overload operators except in rare, special circumstances.
+    </span>
+    <span class=""><br><span style="display: none;" id="Operator_Overloading__body" name="Operator_Overloading__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Operator_Overloading#Operator_Overloading">
+            link
+          </a></span>
+      <p class=""><span class="stylepoint_section">Definition:  </span>
+        A class can define that operators such as <code>+</code> and
+        <code>/</code> operate on the class as if it were a built-in
+        type.
+      </p>
+      <p class=""><span class="stylepoint_section">Pros:  </span>
+        Can make code appear more intuitive because a class will
+        behave in the same way as built-in types (such as
+        <code>int</code>).  Overloaded operators are more playful
+        names for functions that are less-colorfully named, such as
+        <code>Equals()</code> or <code>Add()</code>.  
+      </p>
+      <p class=""><span class="stylepoint_section">Cons: </span>
+        While operator overloading can make code more intuitive, it
+        has several drawbacks:
+        <ul>
+          <li> It can fool our intuition into thinking that expensive
+               operations are cheap, built-in operations.
+               </li>
+          <li> It is much harder to find the call sites for overloaded
+               operators.  Searching for <code>Equals()</code> is much
+               easier than searching for relevant invocations of
+               <code>==</code>.
+               </li>
+        </ul>
+      </p>
+      <p class=""><span class="stylepoint_section">Decision:  </span>
+        <p>
+          In general, do not overload operators.  You can define functions like
+          <code>Equals()</code> and <code>CopyFrom()</code> if you need
+          them.
+        </p>
+        <p>
+          However, there may be rare cases where you need to overload
+          an operator such as when implmenting a class that can be semantically 
+		considered a builtin type.  Examples include the Date and Money
+		classes from DOR.Utility. 
+        </p>
+      </p>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Access_Control" name="Access_Control">Access Control</a></h3><span id="Access_Control__button" name="Access_Control__button" onclick="javascript:ShowHideByName('Access_Control__body','Access_Control__button')" class="showhide_button">▶</span>
+    <span class="">
+      Make <em>all</em> data members <code>private</code>, and provide
+      access to them through accessor properties as needed.  Typically
+      a variable would be called <code>_foo</code> and the accessor
+      property <code>Foo</code>.  
+    </span>
+    <span class=""><br><span style="display: none;" id="Access_Control__body" name="Access_Control__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Access_Control#Access_Control">
+            link
+          </a></span>
+      <p>
+        See also <a href="#Inheritance">Inheritance</a> and <a href="#Function_Names">Method Names</a>.
+      </p>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Declaration_Order" name="Declaration_Order">Declaration Order</a></h3><span id="Declaration_Order__button" name="Declaration_Order__button" onclick="javascript:ShowHideByName('Declaration_Order__body','Declaration_Order__button')" class="showhide_button">▶</span>
+    <span class="">
+	Use the specified order of declarations within a class: <code>private</code> data members,
+	<code>protected</code> data members, constructors, <code>public</code> properties, methods,
+	and finally static methods.
+    </span>
+    <span class=""><br><span style="display: none;" id="Declaration_Order__body" name="Declaration_Order__body" class="stylepoint_body">
+      <p>
+        Your class definition should start with its <code>private</code>
+        section, followed by its <code>protected</code> section and
+        then its <code>public</code> section. If any of these sections
+        are empty, omit them.
+      </p>
+      <p>
+        Within each section, the declarations generally should be in
+        the following order:
+      </p>
+      <ul>
+        <li> Data Members, including static data members</li>
+        <li> Constructors</li>
+        <li> Destructor</li>
+        <li> Properties</li>
+        <li> Methods</li>
+	<li> Static methods</li>
+      </ul>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Write_Short_Functions" name="Write_Short_Functions">Write Short Methods</a></h3><span id="Write_Short_Functions__button" name="Write_Short_Functions__button" onclick="javascript:ShowHideByName('Write_Short_Functions__body','Write_Short_Functions__button')" class="showhide_button">▶</span>
+    <span class="">
+      Prefer small and focused methods.
+    </span>
+    <span class=""><br><span style="display: none;" id="Write_Short_Functions__body" name="Write_Short_Functions__body" class="stylepoint_body">
+      <p>
+        We recognize that long methods are sometimes appropriate, so
+        no hard limit is placed on function's length. If a method
+        exceeds about 40 lines, think about whether it can be broken
+        up without harming the structure of the program.
+      </p>
+      <p>
+        Even if your long method works perfectly now, someone
+        modifying it in a few months may add new behavior. This could
+        result in bugs that are hard to find.  Keeping your methods
+        short and simple makes it easier for other people to read and
+        modify your code.
+      </p>
+      <p>
+        You could find long and complicated methods when working
+        with some code.  Do not be intimidated by modifying existing
+        code: if working with such a method proves to be difficult,
+        you find that errors are hard to debug, or you want to use a
+        piece of it in several different contexts, consider breaking
+        up the function into smaller and more manageable pieces.
+      </p>
+    </span></span>
+  </span>
+</span>
+
+<span class=""><h2 id="Other_C++_Features" name="Other_C++_Features">Other C# Features</h2>
+
+  <span class=""><h3><a id="Exceptions" name="Exceptions">Exceptions</a></h3><span id="Exceptions__button" name="Exceptions__button" onclick="javascript:ShowHideByName('Exceptions__body','Exceptions__button')" class="showhide_button">▶</span>
+    <span class="">
+      Exceptions should usually be handled by the top-level, or outer scope, of a call chain.
+    </span>
+    <span class=""><br><span style="display: none;" id="Exceptions__body" name="Exceptions__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Exceptions#Exceptions">
+            link
+          </a></span>
+      <p class=""><span class="stylepoint_section">Pros:  </span>
+        <ul>
+          <li>Exceptions allow higher levels of an application to
+          decide how to handle failures in deeply
+          nested functions, without the obscure and error-prone
+          bookkeeping of error codes.</li>
+
+          <li>This prevents unchecked exceptions from being handled by the operating system and terminating the process.</li>
+
+          <li>Top-level exception handling makes it easier to understand the program flow.</li>
+        </ul>
+      </p>
+      <p class=""><span class="stylepoint_section">Cons: </span>
+        <ul>
+          <li>It can be difficult to isolate problems when exceptions are 
+          thrown from deaply nested code, or from code that iterates over 
+          a large number of items.</li>
+        </ul>
+      </p>
+      <p class=""><span class="stylepoint_section">Decision:  </span>
+        <p>
+		Exceptions should usually be handled by the top-level, or outer scope, of a call chain.
+		Web applications can use Application_OnError.
+        </p>
+      </p>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="LINQ" name="LINQ">LINQ</a></h3><span id="LINQ__button" name="LINQ__button" onclick="javascript:ShowHideByName('LINQ__body','LINQ__button')" class="showhide_button">▶</span>
+    <span class="">
+Language Integrated Query (LINQ) will be used with the Entity Framework and whever else appropiate.
+    </span>
+    <span class=""><br><span style="display: none;" id="LINQ__body" name="LINQ__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Exceptions#Exceptions">
+            link
+          </a></span>
+      <p class=""><span class="stylepoint_section">Pros:  </span>
+        <ul>
+          <li>LINQ greatly simplifies data handling across all data sources.</li>
+
+          <li>LINQ, along with the Entity Framework, can increase programmer productivity as high as perhaps 30%.</li>
+
+          <li>LINQ code can be parrellized with PLINQ in dot net 4.</li>
+        </ul>
+      </p>
+      <p class=""><span class="stylepoint_section">Cons: </span>
+        <ul>
+          <li>LINQ has two different syntaxes, neither of which is especially consistant with c#.</li>
+          <li>It's unlikely that anyone on our staff can debug language expression trees or Entity SQL.</li>
+        </ul>
+      </p>
+      <p class=""><span class="stylepoint_section">Decision:  </span>
+        <p>
+        Use LINQ and cut development time.
+        </p>
+      </p>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Run-Time_Type_Information__RTTI_" name="Run-Time_Type_Information__RTTI_">Reflection</a></h3><span id="Run-Time_Type_Information__RTTI___button" name="Run-Time_Type_Information__RTTI___button" onclick="javascript:ShowHideByName('Run-Time_Type_Information__RTTI___body','Run-Time_Type_Information__RTTI___button')" class="showhide_button">▶</span>
+    <span class="">
+      We do not normally use relection.
+    </span>
+    <span class=""><br><span style="display: none;" id="Run-Time_Type_Information__RTTI___body" name="Run-Time_Type_Information__RTTI___body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Run-Time_Type_Information__RTTI_#Run-Time_Type_Information__RTTI_">
+            link
+          </a></span>
+      <p class=""><span class="stylepoint_section">Definition:  </span>
+        Reflection allows a programmer to query the class, methods, and properties of an
+        object at run time.
+      </p>
+      <p class=""><span class="stylepoint_section">Pros:  </span>
+        <p>
+			It's useful for dynamically loading assemblies at runtime.
+        </p>
+        <p>
+          In rare circumstances, it is useful even outside of
+          dynamic loading.
+        </p>
+      </p>
+      <p class=""><span class="stylepoint_section">Cons: </span>
+        A query of type during run-time typically means a
+        design problem.  If you need to know the type of an
+        object at runtime, that is often an indication that
+        you should reconsider the design of your class.
+      </p>
+      <p class=""><span class="stylepoint_section">Decision:  </span>
+        <p>
+          If you find yourself
+          in need of writing code that behaves differently based on
+          the class of an object, consider one of the alternatives to
+          querying the type.
+        </p>
+        <p>
+          Virtual methods are the preferred way of executing different
+          code paths depending on a specific subclass type.  This puts
+          the work within the object itself.
+        </p>
+        <p>
+          If the work belongs outside the object and instead in some
+          processing code, consider a double-dispatch solution, such
+          as the Visitor design pattern.  This allows a facility
+          outside the object itself to determine the type of class
+          using the built-in type system.
+        </p>
+        <p>
+          If you think you truly cannot use those ideas,
+          
+          you may use reflection.  But think twice
+          about it.  :-)  Then think twice again.
+          Do not hand-implement an reflection-like workaround. The arguments
+          against reflection apply just as much to workarounds like class
+          hierarchies with type tags.
+        </p>
+      </p>
+    </span></span>
+  </span>
+</span>
+
+<span class=""><h2 id="Naming" name="Naming">Naming</h2>
+  <p>
+    The most important consistency rules are those that govern
+    naming. The style of a name immediately informs us what sort of
+    thing the named entity is: a type, a variable, a function, a
+    constant, a macro, etc., without requiring us to search for the
+    declaration of that entity. The pattern-matching engine in our
+    brains relies a great deal on these naming rules.
+    
+  </p>
+  <p>
+    Naming rules are pretty arbitrary, but
+    
+    we feel that consistency is more important than individual preferences
+    in this area, so regardless of whether you find them sensible or not,
+    the rules are the rules.
+  </p>
+
+  <span class=""><h3><a id="General_Naming_Rules" name="General_Naming_Rules">General Naming Rules</a></h3><span id="General_Naming_Rules__button" name="General_Naming_Rules__button" onclick="javascript:ShowHideByName('General_Naming_Rules__body','General_Naming_Rules__button')" class="showhide_button">▶</span>
+    <span class="">
+      Function names, variable names, and filenames should be
+      descriptive; eschew abbreviation.  Types and variables should be
+      nouns, while functions should be "command" verbs.
+    </span>
+    <span class=""><br><span style="display: none;" id="General_Naming_Rules__body" name="General_Naming_Rules__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=General_Naming_Rules#General_Naming_Rules">
+            link
+          </a></span>
+      <p class=""><span class="stylepoint_subsection">How to Name</span>
+        <p>
+          Give as descriptive a name as possible, within reason. Do
+          not worry about saving horizontal space as it is far more
+          important to make your code immediately understandable by a
+          new reader. Examples of well-chosen names:
+        </p>
+        <span class=""><pre>int numErrors;                  // Good.
+int numCompletedConnections;   // Good.</pre></span>
+        <p>
+          Poorly-chosen names use ambiguous abbreviations or arbitrary
+          characters that do not convey meaning:
+        </p>
+        <span class=""><pre class="badcode">int n;                           // Bad - meaningless.
+int nerr;                        // Bad - ambiguous abbreviation.
+int nCompConns;                // Bad - ambiguous abbreviation.</pre></span>
+        <p>
+          Type and variable names should typically be nouns: e.g.,
+          <code>fileOpener</code>, 
+          
+          <code>numErrors</code>.
+        </p>
+        <p>
+          Function names should typically be imperative (that is they
+          should be commands): e.g., <code>OpenFile()</code>,
+          <code>SetNumErrors()</code>.  There is an exception for
+          properties, which, described more completely in <a href="#Function_Names">Function Names</a>, should be named
+          the same as the variable they access.
+        </p>
+      </p>
+
+      <p class=""><span class="stylepoint_subsection">Abbreviations</span>
+        <p>
+          Do not use abbreviations unless they are extremely well
+          known outside your project. For example:
+        </p>
+        <span class=""><pre>// Good
+// These show proper names with no abbreviations.
+int numDnsConnections;  // Most people know what "DNS" stands for.
+int priceCountReader;   // OK, price count. Makes sense.</pre></span>
+        <span class=""><pre class="badcode">// Bad!
+// Abbreviations can be confusing or ambiguous outside a small group.
+int wgcConnections;  // Only your group knows what this stands for.
+int pcReader;        // Lots of things can be abbreviated "pc".</pre></span>
+        <p>
+          Never abbreviate by leaving out letters:
+        </p>
+        <span class=""><pre>int errorCount;  // Good.</pre></span>
+        <span class=""><pre class="badcode">int errorCnt;    // Bad.</pre></span>
+      </p>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="File_Names" name="File_Names">File Names</a></h3><span id="File_Names__button" name="File_Names__button" onclick="javascript:ShowHideByName('File_Names__body','File_Names__button')" class="showhide_button">▶</span>
+    <span class="">
+      Filenames should be camel case, should not include underscores
+      (<code>_</code>) or dashes (<code>-</code>), and be named after the class contained in 
+      the file.  Each file usually contains a single class.
+      </span>
+    <span class=""><br><span style="display: none;" id="File_Names__body" name="File_Names__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=File_Names#File_Names">
+            link
+          </a></span>
+      <p>
+        Examples of acceptable file names:
+      </p>
+      <p>
+        <code>
+          MyUsefulClass.cs<br>
+        </code>
+      </p>
+      <p>
+        In general, make your filenames very specific.  For example,
+        use <code>HttpServerLogs.cs</code> rather
+        than <code>Logs.cs</code>.          
+        A very common case is to have a
+        file called <code>FooBar.cs</code> defining a class
+        called <code>FooBar</code>.
+      </p>
+    </span>
+  </span>
+
+  <span class=""><h3><a id="Type_Names" name="Type_Names">Type Names</a></h3><span id="Type_Names__button" name="Type_Names__button" onclick="javascript:ShowHideByName('Type_Names__body','Type_Names__button')" class="showhide_button">▶</span>
+    <span class="">
+      Type names start with a capital letter and have a capital
+      letter for each new word, with no underscores:
+      <code>MyExcitingClass</code>, <code>MyExcitingEnum</code>.
+    </span>
+    <span class=""><br><span style="display: none;" id="Type_Names__body" name="Type_Names__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Type_Names#Type_Names">
+            link
+          </a></span>
+      <p>
+        The names of all types — classes, structs, typedefs, and enums
+        — have the same naming convention.  Type names should start
+        with a capital letter and have a capital letter for each new
+        word.  No underscores.  For example:
+      </p>
+      <span class=""><pre>// classes and structs
+class UrlTable { ...
+class UrlTableTester { ...
+struct UrlTableProperties { ...
+
+// enums
+enum UrlTableError { ...</pre></span>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Variable_Names" name="Variable_Names">Variable Names</a></h3><span id="Variable_Names__button" name="Variable_Names__button" onclick="javascript:ShowHideByName('Variable_Names__body','Variable_Names__button')" class="showhide_button">▶</span>
+    <span class="">
+      Variable names start with lowercase and use uppercase for the first letter of
+      each word.  Class member variables have a leading "_".  For
+      instance: <code>myExcitingLocalVariable</code>,
+      <code>_myExcitingMemberVariable</code>.
+    </span>
+    <span class=""><br><span style="display: none;" id="Variable_Names__body" name="Variable_Names__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Variable_Names#Variable_Names">
+            link
+          </a></span>
+      <p class=""><span class="stylepoint_subsection">Common Variable names</span>
+        <p>
+          For example:
+        </p>
+        <span class=""><pre>string tableName;  // OK
+string tablename;   // OK - all lowercase.</pre></span>
+        <span class=""><pre class="badcode">string table_name;   // Bad - uses underscore.</pre></span>
+      </p>
+
+      <p class=""><span class="stylepoint_subsection">Class Data Members</span>
+        <p>
+          Data members (also called instance variables or member
+          variables) start with "_", with the first word lowercase and the following words camel cased.
+        </p>
+        <span class=""><pre>string _tableName;  // OK.
+string tablename;   // Bad -- no leading _.</pre></span>
+      </p>
+
+      <p class=""><span class="stylepoint_subsection">Struct Variables</span>
+        <p>
+          Data members in structs should be named like regular
+          variables without the leading "_" that data members
+          in classes have.
+        </p>
+        <span class=""><pre>struct UrlTableProperties {
+  string name;
+  int numEntries;
+}</pre></span>
+        <p>
+          See <a href="#Structs_vs._Classes">Structs vs. Classes</a> for a
+          discussion of when to use a struct versus a class.
+        </p>
+      </p>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Constant_Names" name="Constant_Names">Constant Names</a></h3><span id="Constant_Names__button" name="Constant_Names__button" onclick="javascript:ShowHideByName('Constant_Names__body','Constant_Names__button')" class="showhide_button">▶</span>
+    <span class="">
+      Constants and enum members should be camel cased:
+      <code>DaysInAWeek</code>.
+    </span>
+    <span class=""><br><span style="display: none;" id="Constant_Names__body" name="Constant_Names__body" class="stylepoint_body">
+      <p>
+        All compile-time constants, whether they are declared locally 
+        or as part of a class, follow a different
+        naming convention from other variables. Use camel case.
+      </p>
+      <span class=""><pre>const int DaysInAWeek = 7;</pre></span>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Function_Names" name="Function_Names">Method Names</a></h3><span id="Function_Names__button" name="Function_Names__button" onclick="javascript:ShowHideByName('Function_Names__body','Function_Names__button')" class="showhide_button">▶</span>
+    <span class="">
+      Regular functions and properties are camel cased; propreties should match
+      the name of the variable: <code>MyExcitingFunction()</code>,
+      <code>MyExcitingMethod()</code>,
+      <code>int MyExcitingMemberVariable { get ...</code>
+    </span>
+    <span class=""><br><span style="display: none;" id="Function_Names__body" name="Function_Names__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Function_Names#Function_Names">
+            link
+          </a></span>
+      <p class=""><span class="stylepoint_subsection">Regular Functions</span>
+        <p>
+          Functions should start with a capital letter and have a
+          capital letter for each new word. No underscores:
+        </p>
+        <span class=""><pre>AddTableEntry()
+DeleteUrl()</pre></span>
+      </p>
+
+      <p class=""><span class="stylepoint_subsection">Properties</span>
+        <p>
+          Properties should match
+          the name of the variable they are getting and setting.  This
+          shows an excerpt of a class whose instance variable is
+          <code>_numEntries</code>.
+        </p>
+        <span class=""><pre>class MyClass 
+{
+	private int _numEntries;
+	
+	public int NumEntries 
+	{ 
+		get { return _numEntries; }
+		set { _numEntries = value; }
+	}
+	
+	// Or use auto-implemented properties
+	public int MoreEntries 
+	{ 
+		get;
+		private set;
+	}
+	
+}</pre></span>
+      </p>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Namespace_Names" name="Namespace_Names">Namespace Names</a></h3><span id="Namespace_Names__button" name="Namespace_Names__button" onclick="javascript:ShowHideByName('Namespace_Names__body','Namespace_Names__button')" class="showhide_button">▶</span>
+    
+    <span class="">
+      Namespace names are camel cased and are based on project names and
+      possibly the directory structure:
+      <code>namespace GoogleAwesomeProject</code>.
+    </span>
+    <span class=""><br><span style="display: none;" id="Namespace_Names__body" name="Namespace_Names__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Namespace_Names#Namespace_Names">
+            link
+          </a></span>
+      <p>
+        See <a href="#Namespaces">Namespaces</a> for a discussion of
+        namespaces and how to name them.
+      </p>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Enumerator_Names" name="Enumerator_Names">Enumeration Names</a></h3><span id="Enumerator_Names__button" name="Enumerator_Names__button" onclick="javascript:ShowHideByName('Enumerator_Names__body','Enumerator_Names__button')" class="showhide_button">▶</span>
+    <span class="">
+      Enumerators should be camel cased and singular: <code>MyExcitingEnumValue</code>.
+    </span>
+    <span class=""><br><span style="display: none;" id="Enumerator_Names__body" name="Enumerator_Names__body" class="stylepoint_body">
+      <p>
+        The individual enumerators should be camel case.  The
+        enumeration name, <code>UrlTableError</code>, is a type, and
+        therefore mixed case.  Enumeration names should be singular, not plural.
+      </p>
+      <span class=""><pre>enum UrlTableError
+{
+	Ok = 0,
+	ErrorOutOfMemory,
+	ErrorMalformedInput
+}</pre></span>
+    </span></span>
+  </span>
+</span>
+
+<span class=""><h2 id="Comments" name="Comments">Comments</h2>
+  <p>
+    Though a pain to write, comments are absolutely vital to keeping our
+    code readable.  The following rules describe what you should
+    comment and where.  But remember: while comments are very
+    important, the best code is self-documenting.  Giving sensible
+    names to types and variables is much better than using obscure
+    names that you must then explain through comments.  When writing 
+    your comments, write for your audience: the next contributor
+    who will need to understand your code. 
+  </p>
+
+  <span class=""><h3><a id="Comment_Style" name="Comment_Style">Comment Style</a></h3><span id="Comment_Style__button" name="Comment_Style__button" onclick="javascript:ShowHideByName('Comment_Style__body','Comment_Style__button')" class="showhide_button">▶</span>
+    <span class="">
+      Use either the <code>//</code> or <code>/* */</code> syntax, as long
+      as you are consistent.
+    </span>
+    <span class=""><br><span style="display: none;" id="Comment_Style__body" name="Comment_Style__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Comment_Style#Comment_Style">
+            link
+          </a></span>
+      <p>
+        You can use either the <code>//</code> or the <code>/* */</code>
+        syntax; however, <code>//</code> is <em>much</em> more common.
+        Be consistent with how you comment and what style you use where.
+      </p>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="File_Comments" name="File_Comments">File Comments</a></h3><span id="File_Comments__button" name="File_Comments__button" onclick="javascript:ShowHideByName('File_Comments__body','File_Comments__button')" class="showhide_button">▶</span>
+    <span class="">
+      If applicable, start each file with a copyright notice.
+    </span>
+    <span class=""><br><span style="display: none;" id="File_Comments__body" name="File_Comments__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=File_Comments#File_Comments">
+            link
+          </a></span>
+      <p class=""><span class="stylepoint_subsection">Legal Notice and Author Line</span>
+        
+        <p>
+          When applicable, every file should contain the following items, in order:
+          <ul>
+            <li>a copyright statement (for example,
+                <code>Copyright 2008 by The State of Washington.</code>)</li>
+            <li>a license boilerplate.  Choose the appropriate boilerplate
+                for the license used by the project (for example,
+                Apache 2.0, BSD, LGPL, GPL)</li>
+            <li>an author line to identify the original author of the
+                file</li>
+          </ul>
+        </p>
+        <p>
+          If you make significant changes to a file that someone else
+          originally wrote, add yourself to the author line. This can
+          be very helpful when another
+          
+          contributor
+          has questions about the file and needs to know whom to contact
+          about it.
+        </p>
+      </p>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Class_Comments" name="Class_Comments">Class Comments</a></h3><span id="Class_Comments__button" name="Class_Comments__button" onclick="javascript:ShowHideByName('Class_Comments__body','Class_Comments__button')" class="showhide_button">▶</span>
+    <span class="">
+      Every class definition should have an accompanying comment that
+      describes what it is for and how it should be used.
+    </span>
+    <span class=""><br><span style="display: none;" id="Class_Comments__body" name="Class_Comments__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Class_Comments#Class_Comments">
+            link
+          </a></span>
+      <span class=""><pre>///&lt;summary&gt; Iterates over the contents of a GargantuanTable.  Sample usage:
+///		foreach (GargantuanTableIterator iter in table) 
+///		{
+///			Process(iter.key(), iter.value());
+///		}
+///&lt;summary&gt;
+class GargantuanTableIterator 
+{
+  ...
+}</pre></span>
+      <p>
+        If you have already described a class in detail in the
+        comments at the top of your file feel free to simply state
+        "See comment at top of file for a complete description", but
+        be sure to have some sort of comment.
+      </p>
+      <p>
+        Document the synchronization assumptions the class makes, if
+        any.  If an instance of the class can be accessed by multiple
+        threads, take extra care to document the rules and invariants
+        surrounding multithreaded use.
+      </p>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Function_Comments" name="Function_Comments">Method Comments</a></h3><span id="Function_Comments__button" name="Function_Comments__button" onclick="javascript:ShowHideByName('Function_Comments__body','Function_Comments__button')" class="showhide_button">▶</span>
+    <span class="">
+      Declaration comments describe use of the method; comments at
+      the definition of a method describe operation.
+    </span>
+    <span class=""><br><span style="display: none;" id="Function_Comments__body" name="Function_Comments__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Function_Comments#Function_Comments">
+            link
+          </a></span>
+      <p class=""><span class="stylepoint_subsection">Method Declarations</span>
+        <p>
+          Every method declaration should have comments immediately
+          preceding it that describe what the method does and how to
+          use it.  These comments should be descriptive ("Opens the
+          file") rather than imperative ("Open the file"); the comment
+          describes the function, it does not tell the function what
+          to do.  In general, these comments do not describe how the
+          function performs its task.  Instead, that should be left to
+          comments in the function definition.
+        </p>
+        <p>
+          Types of things to mention in comments at the function
+          declaration:
+        </p>
+        <ul>
+          <li> What the inputs and outputs are.
+               </li>
+          <li> Whether any of the arguments can be <code>null</code>.
+               </li>
+          <li> If there are any performance implications of how a
+               function is used.
+               </li>
+          <li> If the function is re-entrant.  What are its
+               synchronization assumptions?
+               </li>
+        </ul>
+        <p>
+          Here is an example:
+        </p>
+        <span class=""><pre>///&lt;summary&gt; Returns an iterator for this table.  The client's
+/// must not use the iterator once the GargantuanTable object
+/// on which the iterator was created has been cleared.
+///
+/// The iterator is initially positioned at the beginning of the table.
+///
+/// This method is equivalent to:
+///    Iterator iter = table.NewIterator();
+///    iter.Seek("");
+///    return iter;
+/// If you are going to immediately seek to another place in the
+/// returned iterator, it will be faster to use NewIterator()
+/// and avoid the extra seek.
+///&lt;/summary&gt;
+Iterator GetIterator();</pre></span>
+        <p>
+          However, do not be unnecessarily verbose or state the
+          completely obvious.  Notice below that it is not necessary
+          to say "returns false otherwise" because this is implied.
+        </p>
+        <span class=""><pre>// Returns true if the table cannot hold any more entries.
+bool IsTableFull();</pre></span>
+        <p>
+          When commenting constructors and finalizers, remember that
+          the person reading your code knows what constructors and
+          finalizers are for, so comments that just say something like
+          "frees resources" are not useful.  Document what
+          constructors do with their arguments (for example, if they
+          take ownership of references), and what cleanup the finalizer
+          does.  If this is trivial, just skip the comment.  It is
+          quite common for finalizers not to have a comment.
+        </p>
+      </p>
+
+      <p class=""><span class="stylepoint_subsection">Function Definitions</span>
+        <p>
+          Each function definition should have a comment describing
+          what the function does and anything tricky about how it does
+          its job.  For example, in the definition comment you might
+          describe any coding tricks you use, give an overview of the
+          steps you go through, or explain why you chose to implement
+          the function in the way you did rather than using a viable
+          alternative.  For instance, you might mention why it must
+          acquire a lock for the first half of the function but why it
+          is not needed for the second half.
+        </p>
+      </p>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Variable_Comments" name="Variable_Comments">Variable Comments</a></h3><span id="Variable_Comments__button" name="Variable_Comments__button" onclick="javascript:ShowHideByName('Variable_Comments__body','Variable_Comments__button')" class="showhide_button">▶</span>
+    <span class="">
+      In general the actual name of the variable should be descriptive
+      enough to give a good idea of what the variable is used for.  In
+      certain cases, more comments are required.
+    </span>
+    <span class=""><br><span style="display: none;" id="Variable_Comments__body" name="Variable_Comments__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Variable_Comments#Variable_Comments">
+            link
+          </a></span>
+      <p class=""><span class="stylepoint_subsection">Class Data Members</span>
+        <p>
+          Each class data member (also called an instance variable or
+          member variable) can have a comment describing what it is
+          used for.  If the variable can take sentinel values with
+          special meanings, such as <code>null</code> or -1, document this.
+          For example:
+        </p>
+        <span class=""><pre>
+ // Keeps track of the total number of entries in the table.
+ // Used to ensure we do not go over the limit. -1 means
+ // that we don't yet know how many entries the table has.
+ private int _numTotalEntries;</pre></span>
+      </p>
+    </span>
+  </span>
+
+  <span class=""><h3><a id="Implementation_Comments" name="Implementation_Comments">Implementation Comments</a></h3><span id="Implementation_Comments__button" name="Implementation_Comments__button" onclick="javascript:ShowHideByName('Implementation_Comments__body','Implementation_Comments__button')" class="showhide_button">▶</span>
+    <span class="">
+      In your implementation you should have comments in tricky, non-obvious, 
+      interesting, or important parts of your code.  Explain why something is being 
+      done, not how. 
+    </span>
+    <span class=""><br><span style="display: none;" id="Implementation_Comments__body" name="Implementation_Comments__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Implementation_Comments#Implementation_Comments">
+            link
+          </a></span>
+      <p class=""><span class="stylepoint_subsection">Class Data Members</span>
+        <p>
+          Tricky or complicated code blocks should have comments
+          before them. Example:
+        </p>
+        <span class=""><pre>// Divide result by two, taking into account that x
+// contains the carry from the add.
+for (int i = 0; i &lt; result.Size(); i++) 
+{
+	x = (x &lt;&lt; 8) + result[i];
+	result[i] = x &gt;&gt; 1;
+	x &amp;= 1;
+}</pre></span>
+      </p>
+      <p class=""><span class="stylepoint_subsection">Line Comments</span>
+        <p>
+          Also, lines that are non-obvious should get a comment at the
+          end of the line. These end-of-line comments should be
+          separated from the code a tab.  Example:
+        </p>
+        <span class=""><pre>// If we have enough memory, mmap the data portion too.
+mmap_budget = max&lt;int64&gt;(0, mmap_budget - index_-&gt;length());
+if (mmap_budget &gt;= data_size_ &amp;&amp; !MmapData(mmap_chunk_bytes, mlock))
+  return;  // Error already logged.</pre></span>
+        <p>
+          Note that there are both comments that describe what the
+          code is doing, and comments that mention that an error has
+          already been logged when the function returns.
+        </p>
+        <p>
+          If you have several comments on subsequent lines, it can
+          often be more readable to line them up:
+        </p>
+        <span class=""><pre>...
+DoSomething();                  // Comment here so the comments line up.
+DoSomethingElseThatIsLonger();  // Comment here so there is a tab between
+                                // the code and the comment.
+...</pre></span>
+      </p>
+      <p class=""><span class="stylepoint_subsection">null, true/false, 1, 2, 3...</span>
+        <p>
+          When you pass in <code>null</code>, boolean, or literal integer
+          values to functions, you should consider adding a comment about
+          what they are, or make your code self-documenting by using
+          constants. For example, compare:
+        </p>
+        <span class=""><pre class="badcode">bool success = CalculateSomething
+	(
+		interestingValue,
+		10,
+		false,
+		NULL	// What are these arguments??
+	);  </pre></span>
+        <p>
+          versus:
+        </p>
+        <span class=""><pre>bool success = CalculateSomething
+	(
+		interestingValue,
+		10,     // Default base value.
+		false,  // Not the first time we're calling this.
+		NULL	// No callback.
+	);</pre></span>
+        <p>
+          Or alternatively, constants or self-describing variables:
+        </p>
+        <span class=""><pre>const int kDefaultBaseValue = 10;
+const bool FIRST_TIME_CALLING = false;
+Callback *nullCallback = null;
+bool success = CalculateSomething
+	(
+		interestingValue,
+		DEFAULT_BASE_VALUE,
+		FIRST_TIME_CALLING,
+		nullCallback
+	);</pre></span>
+      </p>
+
+      <p class=""><span class="stylepoint_subsection">Don'ts</span>
+        <p>
+          Note that you should <em>never</em> describe the code
+          itself. Assume that the person reading the code knows C#
+          better than you do, even though he or she does not know what
+          you are trying to do:
+        </p>
+        <span class=""><pre class="badcode">// Now go through the b array and make sure that if i occurs,
+// the next element is i+1.
+...        // Geez.  What a useless comment.</pre></span>
+      </p>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Punctuation,_Spelling_and_Grammar" name="Punctuation,_Spelling_and_Grammar">Punctuation, Spelling and Grammar</a></h3><span id="Punctuation,_Spelling_and_Grammar__button" name="Punctuation,_Spelling_and_Grammar__button" onclick="javascript:ShowHideByName('Punctuation,_Spelling_and_Grammar__body','Punctuation,_Spelling_and_Grammar__button')" class="showhide_button">▶</span>
+    <span class="">
+      Pay attention to punctuation, spelling, and grammar; it is
+      easier to read well-written comments than badly written ones.
+    </span>
+    <span class=""><br><span style="display: none;" id="Punctuation,_Spelling_and_Grammar__body" name="Punctuation,_Spelling_and_Grammar__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Punctuation,_Spelling_and_Grammar#Punctuation,_Spelling_and_Grammar">
+            link
+          </a></span>
+      <p>
+        Comments should usually be written as complete
+        sentences with proper capitalization and periods at the end.
+        Shorter comments, such as comments at the end of a line of
+        code, can sometimes be less formal, but you should be
+        consistent with your style.  Complete sentences are more
+        readable, and they provide some assurance that the comment is
+        complete and not an unfinished thought.
+      </p>
+      <p>
+        Although it can be frustrating to have a code reviewer point
+        out that you are using a comma when you should be using a
+        semicolon, it is very important that source code maintain a
+        high level of clarity and readability.  Proper punctuation,
+        spelling, and grammar help with that goal.
+      </p>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="TODO_Comments" name="TODO_Comments">TODO Comments</a></h3><span id="TODO_Comments__button" name="TODO_Comments__button" onclick="javascript:ShowHideByName('TODO_Comments__body','TODO_Comments__button')" class="showhide_button">▶</span>
+    <span class="">
+      Use <code>TODO</code> comments for code that is temporary, a
+      short-term solution, or good-enough but not perfect.
+    </span>
+    <span class=""><br><span style="display: none;" id="TODO_Comments__body" name="TODO_Comments__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=TODO_Comments#TODO_Comments">
+            link
+          </a></span>
+      <p>
+        <code>TODO</code>s should include the string <code>TODO</code> in
+        all caps, followed by your
+        
+        name, e-mail address, or other
+        identifier
+        in parentheses.  A colon is optional.  The main purpose is to have
+        a consistent <code>TODO</code> format searchable by the person
+        adding the comment (who can provide more details upon request).  A
+        <code>TODO</code> is not a commitment to provide the fix yourself.
+      </p>
+      
+      <span class=""><pre>/// TODO(kl@gmail.com): Use a "*" here for concatenation operator.
+/// TODO(Zeke) change this to use relations.</pre></span>
+      <p>
+        If your <code>TODO</code> is of the form "At a future date do
+        something" make sure that you either include a very specific
+        date ("Fix by November 2005") or a very specific event
+        ("Remove this code when all clients can handle XML responses.").
+      </p>
+    </span></span>
+  </span>
+
+</span>
+
+<span class=""><h2 id="Formatting" name="Formatting">Formatting</h2>
+  <p>
+    Coding style and formatting are pretty arbitrary, but a
+    
+    project
+    is much easier to follow if everyone uses the same style. Individuals
+    may not agree with every aspect of the formatting rules, and some of
+    the rules may take some getting used to, but it is important that all
+    
+    project contributors
+    follow the style rules so that
+    
+    they
+    can all read and understand everyone's code easily.
+  </p>
+  
+  <span class=""><h3><a id="Non-ASCII_Characters" name="Non-ASCII_Characters">Non-ASCII Characters</a></h3><span id="Non-ASCII_Characters__button" name="Non-ASCII_Characters__button" onclick="javascript:ShowHideByName('Non-ASCII_Characters__body','Non-ASCII_Characters__button')" class="showhide_button">▶</span>
+    <span class="">
+      Non-ASCII characters should be rare and must use UTF-8 formatting.
+    </span>
+    <span class=""><br><span style="display: none;" id="Non-ASCII_Characters__body" name="Non-ASCII_Characters__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Non-ASCII_Characters#Non-ASCII_Characters">
+            link
+          </a></span>
+      <p>
+        You shouldn't hard-code user-facing text in source, even English,
+        so use of non-ASCII characters should be rare.  However, in certain
+        cases it is appropriate to include such words in your code.  For
+        example, if your code parses data files from foreign
+        
+        
+        it may be appropriate to hard-code the non-ASCII string(s) used in
+        those data files as delimiters.  More commonly, unittest code
+        (which does not
+        
+        need to be localized) might contain non-ASCII strings.  In such
+        cases, you should use UTF-8, since that is
+        
+        an encoding understood by most tools able
+        to handle more than just ASCII.
+        Hex encoding is also OK, and encouraged where it enhances
+        readability — for example, <code>"\xEF\xBB\xBF"</code> is the
+        Unicode zero-width no-break space character, which would be
+        invisible if included in the source as straight UTF-8.
+      </p>
+      <p>
+		For ASPX pages, be sure to set the character and content encoding on the page.
+		Otherwise, the character will show up as an empty square on some browsers.
+      </p>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Spaces_vs._Tabs" name="Spaces_vs._Tabs">Spaces vs. Tabs</a></h3><span id="Spaces_vs._Tabs__button" name="Spaces_vs._Tabs__button" onclick="javascript:ShowHideByName('Spaces_vs._Tabs__body','Spaces_vs._Tabs__button')" class="showhide_button">▶</span>
+    <span class="">
+      Use only tabs.
+    </span>
+    <span class=""><br><span style="display: none;" id="Spaces_vs._Tabs__body" name="Spaces_vs._Tabs__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Spaces_vs._Tabs#Spaces_vs._Tabs">
+            link
+          </a></span>
+      <p>
+        We use tabs for indentation -- do not use spaces.
+        You should set your editor to emit tabs when you hit the tab
+        key.  This allows developers to set the tab size to thier own
+	spacing preferences. 
+      </p>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Function_Declarations_and_Definitions" name="Function_Declarations_and_Definitions">Method Calls</a></h3><span id="Function_Declarations_and_Definitions__button" name="Function_Declarations_and_Definitions__button" onclick="javascript:ShowHideByName('Function_Declarations_and_Definitions__body','Function_Declarations_and_Definitions__button')" class="showhide_button">▶</span>
+    <span class="">
+      Return type on the same line as function name, parameters on the
+      same line if they fit.
+    </span>
+    <span class=""><br><span style="display: none;" id="Function_Declarations_and_Definitions__body" name="Function_Declarations_and_Definitions__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Function_Declarations_and_Definitions#Function_Declarations_and_Definitions">
+            link
+          </a></span>
+      <p>
+        Functions look like this:
+      </p>
+      <span class=""><pre>ReturnType FunctionName(Type parName1, Type parName2) 
+{
+	DoSomething();
+	...
+}</pre></span>
+      <p>
+        If you have too much text to fit on one line:
+      </p>
+      <span class=""><pre>
+	ReturnType ReallyLongFunctionName
+	(
+		Type parName1,
+		Type parName2,
+		Type parName3
+	) 
+	{
+		DoSomething();
+		...
+	}</pre></span>
+      <p>
+        Some points to note:
+      </p>
+      <ul>
+        <li> The return type is always on the same line as the
+             function name.
+             </li>
+        <li> The open and close parenthesis are always either both on the same line as the
+             function name, or on lines by themselves.
+             </li>
+        <li> There is never a space between the function name and the
+             open parenthesis.
+             </li>
+        <li> The open curly brace is always on a line by itself.
+             </li>
+        <li> The close curly brace is always on the last line by
+             itself.
+             </li>
+        <li> All parameters should be named, with identical names in the
+             declaration and implementation.
+             </li>
+        <li> All parameters should be aligned if possible.
+             </li>
+        <li> Default indentation is one space.
+             </li>
+        <li> Wrapped parameters have a one tab indent.
+             </li>
+      </ul>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Conditionals" name="Conditionals">Conditionals</a></h3><span id="Conditionals__button" name="Conditionals__button" onclick="javascript:ShowHideByName('Conditionals__body','Conditionals__button')" class="showhide_button">▶</span>
+    <span class="">
+      Prefer no spaces inside parentheses.  The <code>else</code>
+      keyword belongs on a new line.
+    </span>
+    <span class=""><br><span style="display: none;" id="Conditionals__body" name="Conditionals__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Conditionals#Conditionals">
+            link
+          </a></span>
+      <p>
+        There are two acceptable formats for a basic conditional
+        statement. One includes spaces between the parentheses and the
+        condition, and one does not.
+      </p>
+      <p>
+        The most common form is without spaces.  Either is fine, but
+        <em>be consistent</em>. If you are modifying a file, use the
+        format that is already present. If you are writing new code,
+        use the format that the other files in that directory or
+        project use. If in doubt and you have no personal preference,
+        do not add the spaces.
+      </p>
+      <span class=""><pre>if (condition) 
+{
+	...	// TAB
+} 
+else
+{
+	// else uses consistant block style
+	...
+}</pre></span>
+      <p>
+        If you prefer you may add spaces inside the
+        parentheses:
+      </p>
+      <span class=""><pre>if ( condition ) 
+{
+		// spaces inside parentheses
+	...	// TAB
+} 
+else 
+{
+	// else uses consistant block style
+	...
+}</pre></span>
+      <p>
+        Note that in all cases you must have a space between the
+        <code>if</code> and the open parenthesis.  Curly braces should
+	always be used for statement blocks, even if there's only one line of code.
+      </p>
+      <span class=""><pre class="badcode">if(condition)     // Bad - space missing after IF.
+if (condition) {	// Bad - { on the same line as IF.
+if(condition){		// Doubly bad.</pre></span>
+      <span class=""><pre>if (condition)	// Good - proper space after IF { on a line by itself.
+{</pre></span>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Loops_and_Switch_Statements" name="Loops_and_Switch_Statements">Loops and Switch Statements</a></h3><span id="Loops_and_Switch_Statements__button" name="Loops_and_Switch_Statements__button" onclick="javascript:ShowHideByName('Loops_and_Switch_Statements__body','Loops_and_Switch_Statements__button')" class="showhide_button">▶</span>
+    <span class="">
+      Switch statements must use braces for blocks.  Empty loop bodies must use
+      <code>{ }</code>.
+    </span>
+    <span class=""><br><span style="display: none;" id="Loops_and_Switch_Statements__body" name="Loops_and_Switch_Statements__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Loops_and_Switch_Statements#Loops_and_Switch_Statements">
+            link
+          </a></span>
+      <p>
+        <code>case</code> blocks in <code>switch</code> statements generally should not have
+        curly braces, unless the intent is to create a local scope.  If you do
+        include curly braces, they should be formated consistant with conditional code blocks.
+      </p>
+      <p>
+        Switch statements
+        should always have a <code>default</code> case.  If the default case should never execute,
+        simply <code>Debug.Assert</code> or throw and exception:
+      </p>
+      
+      <span class=""><pre>switch (var) 
+{
+case 0:  	// no indent
+	...	// TAB indent
+	break;
+
+case 1:
+	...
+	break;
+
+default:
+	Debug.Assert(false);
+	break;
+}</pre></span>
+      <p>
+        Empty loop bodies should use <code>{ }</code>.
+      </p>
+      <span class=""><pre>while (condition) 
+{
+	// Repeat test until it returns false.
+}
+for (int i = 0; i &lt; kSomeNumber; ++i)
+{
+	// Good - empty body.
+}</pre></span>
+      <span class=""><pre class="badcode">while (condition);  // Bad - looks like part of do/while loop.</pre></span>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Pointer_and_Reference_Expressions" name="Pointer_and_Reference_Expressions">Reference Expressions</a></h3><span id="Pointer_and_Reference_Expressions__button" name="Pointer_and_Reference_Expressions__button" onclick="javascript:ShowHideByName('Pointer_and_Reference_Expressions__body','Pointer_and_Reference_Expressions__button')" class="showhide_button">▶</span>
+    <span class="">
+      No spaces around the period.
+    </span>
+    <span class=""><br><span style="display: none;" id="Pointer_and_Reference_Expressions__body" name="Pointer_and_Reference_Expressions__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Pointer_and_Reference_Expressions#Pointer_and_Reference_Expressions">
+            link
+          </a></span>
+      <p>
+        The following are examples of correctly-formatted pointer and
+        reference expressions:
+      </p>
+      <span class=""><pre>x = p.x;
+y = r.y;
+</pre></span>
+      <p>
+        Note that:
+      </p>
+      <ul>
+        <li> There are no spaces around the period when
+             accessing a member.
+             </li>
+      </ul>
+    </span>
+  </span>
+
+  <span class=""><h3><a id="Return_Values" name="Return_Values">Return Values</a></h3><span id="Return_Values__button" name="Return_Values__button" onclick="javascript:ShowHideByName('Return_Values__body','Return_Values__button')" class="showhide_button">▶</span>
+    <span class="">
+      Do not surround the <code>return</code> expression with parentheses.
+    </span>
+    <span class=""><br><span style="display: none;" id="Return_Values__body" name="Return_Values__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Return_Values#Return_Values">
+            link
+          </a></span>
+      <p>
+        Return values should not have parentheses:
+      </p>
+      <span class=""><pre>return x;	// not return(x);</pre></span>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Preprocessor_Directives" name="Preprocessor_Directives">Preprocessor Directives</a></h3><span id="Preprocessor_Directives__button" name="Preprocessor_Directives__button" onclick="javascript:ShowHideByName('Preprocessor_Directives__body','Preprocessor_Directives__button')" class="showhide_button">▶</span>
+    <span class="">
+      Preprocessor directives should not be indented but should
+      instead start at the beginning of the line.
+    </span>
+    <span class=""><br><span style="display: none;" id="Preprocessor_Directives__body" name="Preprocessor_Directives__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Preprocessor_Directives#Preprocessor_Directives">
+            link
+          </a></span>
+      <p>
+        Even when pre-processor directives are within the body of
+        indented code, the directives should start at the beginning of
+        the line.
+      </p>
+      <span class=""><pre>	// Good - directives at beginning of line
+	if (lopsidedScore) 
+	{
+#if DISASTER_PENDING      // Correct -- Starts at beginning of line
+		DropEverything();
+#endif
+		BackToNormal();
+	}</pre></span>
+      <span class=""><pre class="badcode">// Bad - indented directives
+if (lopsidedScore) 
+{
+    #if DISASTER_PENDING  // Wrong!  The "#if" should be at beginning of line
+    DropEverything();
+    #endif                // Wrong!  Do not indent "#endif"
+    BackToNormal();
+  }</pre></span>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Class_Format" name="Class_Format">Class Format</a></h3><span id="Class_Format__button" name="Class_Format__button" onclick="javascript:ShowHideByName('Class_Format__body','Class_Format__button')" class="showhide_button">▶</span>&nbsp;Example:
+    <span class=""><br><span style="display: none;" id="Class_Format__body" name="Class_Format__body" class="stylepoint_body">
+      <p>
+        The basic format for a class declaration (lacking the
+        comments, see <a href="#Class_Comments">Class Comments</a> for
+        a discussion of what comments are needed) is:
+      </p>
+      <span class=""><pre>public class MyClass : OtherClass 
+{
+	private int _someVar;
+	private int _someOtherVar;
+
+	public MyClass()  // Regular 1 TAB indent.
+	{
+	}
+
+	public MyClass(int var)
+	{
+	}
+
+	public int SomeVar
+	{
+		get { return _someVar; }
+		set { _someVar = value; }
+	}
+
+	// OR use auto-implemented properties
+	public int SomeMore
+	{
+		get;
+		private set;
+	}
+
+	public void SomeFunction()
+	{
+		// ...
+	}
+
+	public void SomeFunctionThatDoesNothing() 
+	{
+	}
+
+	private bool SomeInternalFunction()
+	{
+		// ...
+	}
+}</pre></span>
+      <p>
+        Things to note:
+      </p>
+      <ul>
+        <li> Any base class name should be on the same line as the
+             subclass name.
+             </li>
+        <li> For simple properties, the get and set statement blocks can be on a single line.
+             </li>
+        <li> Methods should be seperated by a single blank line.
+             </li>
+        <li> There should not be a new line after opening braces or between the last method and the closing brace for the class.
+             </li>
+        <li> See <a href="#Declaration_Order">Declaration Order</a> for
+             rules on ordering declarations within the class.
+             </li>
+      </ul>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Namespace_Formatting" name="Namespace_Formatting">Namespace Formatting</a></h3><span id="Namespace_Formatting__button" name="Namespace_Formatting__button" onclick="javascript:ShowHideByName('Namespace_Formatting__body','Namespace_Formatting__button')" class="showhide_button">▶</span>
+    <span class="">
+      The contents of namespaces are indented.
+    </span>
+    <span class=""><br><span style="display: none;" id="Namespace_Formatting__body" name="Namespace_Formatting__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Namespace_Formatting#Namespace_Formatting">
+            link
+          </a></span>
+      <p>
+        <a href="#Namespaces">Namespaces</a> do add an extra level of
+        indentation. For example, use:
+      </p>
+      <span class=""><pre>namespace Project1 
+{
+	// Correct.  
+
+	void foo() 
+	{  
+		...
+	}
+
+}</pre></span>
+      <span class=""><pre class="badcode">namespace Project1 
+{
+// Wrong.  Should be indented.
+void foo() 
+{
+	...
+}
+
+}</pre></span>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="Horizontal_Whitespace" name="Horizontal_Whitespace">Horizontal Whitespace</a></h3><span id="Horizontal_Whitespace__button" name="Horizontal_Whitespace__button" onclick="javascript:ShowHideByName('Horizontal_Whitespace__body','Horizontal_Whitespace__button')" class="showhide_button">▶</span>
+    <span class="">
+      Use of horizontal whitespace depends on location.  Never put trailing
+      whitespace at the end of a line.
+    </span>
+    <span class=""><br><span style="display: none;" id="Horizontal_Whitespace__body" name="Horizontal_Whitespace__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Horizontal_Whitespace#Horizontal_Whitespace">
+            link
+          </a></span>
+      <p class=""><span class="stylepoint_subsection">General</span>
+        <span class=""><pre>
+int i = 0;  		// Semicolons usually have no space before them.
+int x[] = { 0 };	// Spaces inside braces for array initialization are
+int x[] = {0};		// optional.  If you use them, put them on both sides!
+
+// Spaces around the colon in inheritance and initializer lists.
+public class MyClass : YourClass
+{
+</pre></span>
+        <p>
+          Adding trailing whitespace can cause extra work for others editing
+          the same file, when they merge, as can removing existing trailing
+          whitespace.  So:  Don't introduce trailing whitespace.  Remove it
+          if you're already changing that line, or do it in a separate
+          clean-up
+          
+          operation (preferably when no-one else
+          is working on the file).
+        </p>
+      </p>
+      <p class=""><span class="stylepoint_subsection">Loops and Conditionals</span>
+        <span class=""><pre>// Space after the keyword in conditions and loops.
+
+if (b) 
+
+switch (i) 
+
+for (int i = 0; i &lt; 5; ++i) 
+
+// Loops and conditions may have spaces inside
+// parentheses, but this is rare.  Be consistent.
+
+switch ( i )
+
+if ( test )
+	
+// For loops always have a space after the
+// semicolon, and may have a space before the
+// semicolon.
+
+for ( int i = 0; i &lt; 5; ++i )
+
+for ( ; i &lt; 5 ; ++i)	
+
+switch (i)
+{
+case 1:         // No space before colon in a switch case.
+</pre></span>
+      </p>
+      <p class=""><span class="stylepoint_subsection">Operators</span>
+        <span class=""><pre>x = 0;              // Assignment operators always have spaces around
+                    // them.
+x = -5;             // No spaces separating unary operators and their
+++x;                // arguments.
+if (x &amp;&amp; !y)
+  ...
+v = w * x + y / z;  // Binary operators usually have spaces around them,
+v = w*x + y/z;      // but it's okay to remove spaces around factors.
+v = w * (x + z);    // Parentheses should have no spaces inside them.</pre></span>
+      </p>
+      <p class=""><span class="stylepoint_subsection">Templates and Casts</span>
+        <span class=""><pre>vector&lt;string&gt; x;           // No spaces inside the angle
+</pre></span>
+      </p>
+    </span></span>
+  </span>
+
+
+  <span class=""><h3><a id="Vertical_Whitespace" name="Vertical_Whitespace">Vertical Whitespace</a></h3><span id="Vertical_Whitespace__button" name="Vertical_Whitespace__button" onclick="javascript:ShowHideByName('Vertical_Whitespace__body','Vertical_Whitespace__button')" class="showhide_button">▶</span>
+    <span class="">
+      Use blank lines to group related code.  Do not use more than blank line.
+    </span>
+    <span class=""><br><span style="display: none;" id="Vertical_Whitespace__body" name="Vertical_Whitespace__body" class="stylepoint_body"><span class="link_button"><a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml?showone=Vertical_Whitespace#Vertical_Whitespace">
+            link
+          </a></span>
+      <p>
+        In general, blank lines should be used group, or seperate, logical 
+	chunks of code.  Each blank line in your code should have specific 
+	meaning, such as seperating methods or the seperating groups of
+	related operations in a method.
+        Don't put more than one blank line between functions, don't start or end
+        functions with a blank line, and be discriminating with your
+        use of blank lines inside functions.
+      </p>
+      <p>
+      </p>
+      <p>
+        Don't start or end functions with blank lines:
+        <span class=""><pre class="badcode">void Function() 
+{
+
+	// Unnecessary blank lines before and after
+
+}</pre></span>
+      </p>
+      <p>
+        Don't start and end blocks with blank lines either:
+        <span class=""><pre class="badcode">while (condition) 
+{
+	// Unnecessary blank line after
+	...
+
+}
+if (condition) 
+{
+
+	// Unnecessary blank line before
+	...
+}</pre></span>
+      </p>
+      <p>
+        Use blank lines to group code logic:
+        <span class=""><pre>bool CheckSumFile (string fileName) 
+{
+	if (! File.Exists(fileName))
+	{
+		return false;
+	}
+	string fileContent = File.ReadAll(fileName);
+
+	// We're done with the file, now process the content.
+	for (int pos = 0; pos &lt; fileContent.Length; pos++)
+	{
+		...
+	}
+
+	// Processing complete, so do something else.
+	return true;
+}</pre></span>
+      </p>
+    </span></span>
+  </span>
+</span>
+  
+<span class=""><h2 id="SQL" name="SQL">SQL</h2>
+  <p>
+    The use of certain conventions can make SQL programming easier and more reliable.
+  </p>
+
+  <span class=""><h3><a id="SQL_PRE" name="SQL_PRE">Field Prefixes</a></h3><span id="SQL_PRE__button" name="SQL_PRE__button" onclick="javascript:ShowHideByName('SQL_PRE__body','SQL_PRE__button')" class="showhide_button">▶</span>
+    <span class="">
+	Field names should be prefixed with the abbreviated table name.  Foriegn
+	keys should use the name field name as in the foriegn table.
+    </span>      
+    <span class=""><br><span style="display: none;" id="SQL_PRE__body" name="SQL_PRE__body" class="stylepoint_body">
+    <p>
+		So, let's say you had a table named User.  Fields in this table should be named like
+		<code>User_Name_Txt</code>.  <code>Usr_Name_Txt</code> would also be acceptable.  If
+		User_Name_Txt is referenced as a foriegn key in another table, the other table should
+		use <code>User_Name_Txt</code> for its field name.
+    </p>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="SQL_SUF" name="SQL_SUF">Field Suffixes</a></h3><span id="SQL_SUF__button" name="SQL_SUF__button" onclick="javascript:ShowHideByName('SQL_SUF__body','SQL_SUF__button')" class="showhide_button">▶</span>
+    <span class="">
+	Field names will use DOR's standard suffixes.
+    </span>      
+    <span class=""><br><span style="display: none;" id="SQL_SUF__body" name="SQL_SUF__body" class="stylepoint_body">
+    <blockquote>
+	<table>
+		<tr><td>Number</td><td>_Num</td></tr>
+		<tr><td>Text</td><td>_Txt</td></tr>
+		<tr><td>Indicator</td><td>_Ind</td></tr>
+		<tr><td>Flag</td><td>_Ind</td></tr>
+		<tr><td>Money</td><td>_Amt</td></tr>
+		<tr><td>Lookup code</td><td>_Code</td></tr>
+		<tr><td>Identifier</td><td>_Id</td></tr>
+	</table>
+	</blockquote>
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="SQL_General" name="SQL_General">General Formatting</a></h3><span id="SQL_General__button" name="SQL_General__button" onclick="javascript:ShowHideByName('SQL_General__body','SQL_General__button')" class="showhide_button">▶</span>
+    <span class="">
+	Keywords should be capitalized.  Field names should use the same case as in the table definition.
+	Each clause keyword such as <code>SELECT</code>, <code>FROM</code>, <code>WHERE</code>, and <code>GROUP BY</code> should be 
+	on a line by itself.  Each field in a field list should be its own line.  Parentheses should be on a separate line, 
+	except for the IN value list.  Variables and arguments should use the same name as the field they reference.
+    </span>      
+    <span class=""><br><span style="display: none;" id="SQL_General__body" name="SQL_General__body" class="stylepoint_body">
+      <span class=""><pre>CREATE PROCEDURE [dbo].[selUser]
+(
+	@USER_ID INT
+)
+AS
+
+SELECT
+	USER_ID,
+	USER_NAME_TEXT,
+	USER_STATUS_CODE
+FROM
+	USER
+WHERE
+	USER_ID = @USER_ID AND
+	USER_STATUS_CODE IN ('A', 'B', 'C')
+
+RETURN @@ERROR
+</pre></span>
+
+      <span><pre class="badcode">CREATE PROCEDURE [dbo].[selUser]
+(
+	@ID int	-- BAD - Name doesn't match the field referenced in TABLE2,
+				-- INT should be upper case.
+)
+AS
+
+SELECT 
+	USER_ID, USER_NAME_TEXT, USER_STATUS_CODE	-- BAD - Should be on seperate lines
+FROM
+	USER
+WHERE
+	USER_ID = @USER_ID AND
+	USER_STATUS_CODE IN ('A', 'B', 'C')
+
+RETURN @@ERROR
+</pre></span>
+
+    </span></span>
+  </span>
+
+  <span class=""><h3><a id="SQL_Return_Value" name="SQL_Return_Value">Return Value</a></h3><span id="SQL_Return_Value__button" name="SQL_Return_Value__button" onclick="javascript:ShowHideByName('SQL_Return_Value__body','SQL_Return_Value__button')" class="showhide_button">▶</span>
+    <span class="">
+	Each TSQL stored procedure must return the error code from @@ERROR.  Multistep stored procedures must check @@ERROR after each operation.
+    </span>      
+    <span class=""><br><span style="display: none;" id="SQL_Return_Value__body" name="SQL_Return_Value__body" class="stylepoint_body">
+      <span class=""><pre>CREATE PROCEDURE [dbo].[selUserIds]
+AS
+
+SELECT
+	USER_ID
+FROM
+	USER
+
+RETURN @@ERROR
+</pre></span>
+  <p>
+	Multistep stored procedures should be written as follows.
+  </p>
+      <span class=""><pre>CREATE PROCEDURE [dbo].[updUserName]
+(
+	@USER_ID INT
+	@USER_NAME_TXT VARCHAR(30)
+)
+AS
+
+DECLARE @ERROR INT
+
+INSERT INTO
+	USER_ACTIVITY
+(
+	USER_ID,
+	USRACTV_ACTIVITY_TEXT
+)
+VALUES
+(
+	@USER_ID,
+	'Name Changed'
+)
+
+SET @ERROR = @@ERROR
+IF 0 <> @ERROR
+	RETURN @ERROR
+
+UPDATE
+	USER
+SET
+	USER_NAME_TEXT = @USER_NAME_TEXT
+WHERE
+	USER_ID = @USER_ID
+
+RETURN @@ERROR
+</pre></span>
+
+    </span></span>
+  </span>
+
+
+  <span class=""><h3><a id="SQL_Joins" name="SQL_Joins">Joins</a></h3><span id="SQL_Joins__button" name="SQL_Joins__button" onclick="javascript:ShowHideByName('SQL_Joins__body','SQL_Joins__button')" class="showhide_button">▶</span>
+    <span class="">
+	Use on SQL92 join syntax -- do not perform inner joins in the <code>WHERE</code> clause.  Joins should always 
+	use parenthesis around the match statements.  The match statements should use the same formatting as the <code>WHERE</code> clause.
+    </span>      
+    <span class=""><br><span style="display: none;" id="SQL_Joins__body" name="SQL_Joins__body" class="stylepoint_body">
+      <span class=""><pre>CREATE PROCEDURE [dbo].[selJoins]
+AS
+
+SELECT
+	AFIELD1_NUM,
+	BFIELD1_NUM,
+	CFIELD1_TEXT
+FROM
+	TABLE1 INNER JOIN TABLE2 ON
+	(
+		TABLE1.AFIELD_ID = TABLE2.BFIELD_ID AND
+		TABLE1.AFIELD_IND = 0
+	)
+	LEFT JOIN TABLE3 ON
+	(
+		TABLE1.AFIELD_ID = TABLE3.CFIELD_ID
+	)
+
+RETURN @@ERROR
+</pre></span>
+    </span></span>
+  </span>
+
+</span>
+
+<span class=""><h2 id="ASP" name="ASP">ASP.NET</h2>
+  <p>
+	ASP.NET supports a wide range of coding and structual styles and features.
+  </p>
+
+  <span class=""><h3><a id="AspPOST" name="AspPOST">Design of Standard POST Back Pages</a></h3>
+	<span id="AspPOST__button" name="AspPOST__button" onclick="javascript:ShowHideByName('AspPOST__body','AspPOST__button')" class="showhide_button">▶</span>
+  	<span class="">
+		Pages using the traditional GET, POST, and response lifecycle should be designed 
+		with an MVC pattern.  The ASPX file is the view, the ASPX.CS file is the controller, and 
+		the application object model is the model.  The application object model and data access
+		should be in a DLL so that it can be unit tested.
+	</span>      
+	<span class=""><br><span style="display: none;" id="AspPOST__body" name="AspPOST__body" class="stylepoint_body">
+		<p><a href='http://en.wikipedia.org/wiki/Model-view-controller'>http://en.wikipedia.org/wiki/Model-view-controller</a></p>
+	</span>
+  </span>
+
+  <span class=""><h3><a id="AspAjax" name="AspAjax">Use of AJAX</a></h3>
+	<span id="AspAjax__button" name="AspAjax__button" onclick="javascript:ShowHideByName('AspAjax__body','AspAjax__button')" class="showhide_button">▶</span>
+  	<span class="">
+		AJAX pages are usually more complex to design and take longer to develop and test.  They should be
+		avoided, unless they provide significant business value to the customer.
+	</span>      
+	<span class=""><br><span style="display: none;" id="AspAjax__body" name="AspAjax__body" class="stylepoint_body">
+      <p class=""><span class="stylepoint_section">Definition:  </span>
+        Web pages can use javascript to asynchronously send and receive 
+	data from a web server.  This feature can be used to create traditional
+	thick-client N-tier applications that run in the web browser.  In 
+	pratice, these applications tend to use client server designs.
+      </p>
+      <p class=""><span class="stylepoint_section">Pros:  </span>
+        AJAX can be used to create slick UI's that would be cumbersome to
+	implement with traditional pages.
+        <ul>
+          <li>
+		Desktop application features such as drag-drop, modal 
+		dialogs, and live grids can be implemented.
+          </li>
+	  <li>
+		AJAX applications can have a "glitz" factor that could previously
+		only be achived with flash or shockwave.
+	  </li>
+          <li>
+		Some AJAX applications, such as Google maps, are much easier
+		to use than equivalent traditional page model would be.
+          </li>
+	</ul>	
+      </p>
+      <p class=""><span class="stylepoint_section">Cons: </span>
+        While AJAX has several benefits, it also has a number of costs.
+        <ul>
+          <li>
+		For some UI designs, making asynchronous calls the the server
+		can cause the user falsely assume that an action is complete.
+		For example, let's say that the user drags a message from
+		her inbox to the recycle bin.  The UI indicates that the
+		message has been moved, so the user closes the browser or
+		clicks off the page.  However the call to the server was not
+		complete, so the operation was aborted.  The next time she
+		returns to the application, the message is back in her inbox.
+          </li>
+          <li>
+		AJAX UI's can take significantly more time to develop and test.  
+		More code is usually required to be written and JavaScript and 
+		CSS skills and debugging are required.  Supporting multiple 
+		browsers and versions also require significantly more effort.
+          </li>
+	  <li>
+		The way users typically use the back and forward buttons can
+		cause unexpected results.  For example, paging is often used
+		to split up large result sets displayed in a grid.  When paging
+		through the results, users will often hit the back button to
+		return to the previously display set of results.  However, 
+		in an AJAX'ed grid this	will cause the previous web page to be
+		displayed.
+	  </li>
+	  <li>
+		AJAX designs have accessability issues both for people with
+		disabilities and for people with limited bandwidth.
+	  </li>
+	  <li>
+		AJAX designs tend to place a heavier load on the server, since they 
+		often make frequent fine-grained calls.  For example, one popular 
+		AJAX technique to provide auto-completion on input boxes (like the 
+		search on http://msdn.microsoft.com).  Every character that's typed 
+		requires a call to the server to get the suggested matches.
+	  </li>
+        </ul>
+      </p>
+      <p class=""><span class="stylepoint_section">Decision:  </span>
+        <p>
+		As a general rule, do not use asynchronous designs.
+        </p>
+      </p>
+	</span>
+  </span>
+<!--
+  <span class=""><h3><a id="AspAjaxDesign" name="AspAjaxDesign">Design of AJAX Pages</a></h3>
+	<span id="AspAjaxDesign__button" name="AspAjaxDesign__button" onclick="javascript:ShowHideByName('AspAjaxDesign__body','AspAjaxDesign__button')" class="showhide_button">▶</span>
+  	<span class="">
+		
+	</span>      
+	<span class=""><br><span style="display: none;" id="AspAjaxDesign__body" name="AAspAjaxDesign__body" class="stylepoint_body">
+		
+	</span>
+  </span>
+-->
+  <span class=""><h3><a id="AspCtlNames" name="AspCtlNames">Control Names</a></h3>
+	<span id="AspCtlNames__button" name="AspCtlNames__button" onclick="javascript:ShowHideByName('AspCtlNames__body','AspCtlNames__button')" class="showhide_button">▶</span>
+  	<span class="">The two most common control naming conventions are to either name them like other variables, or to use a prefix
+		to indicate the control type.  Our pratice is to use a prefix to indicate the control type.
+	</span>      
+	<span class=""><br><span style="display: none;" id="AspCtlNames__body" name="AspCtlNames__body" class="stylepoint_body">
+		<p>
+			By default, ASP.NET puts the definition of the control in a sperate file from the implementation.
+			Use of the type prefix provides a hint to the developer to look in the ASPX file for the definition.
+			However due to the development of IDE's with auto-completion features, the type information provided by the 
+			prefix is not especially useful.
+		</p>
+    </span>
+  </span>
+
+  <span class=""><h3><a id="AspCodeBehind" name="AspCodeBehind">Code Behind vs Code In Front</a></h3>
+	<span id="AspCodeBehind__button" name="AspCodeBehind__button" onclick="javascript:ShowHideByName('AspCodeBehind__body','AspCodeBehind__button')" class="showhide_button">▶</span>
+  	<span class="">Pages and controls should use code behind.  Exceptions: Use code in front if production 
+		updates need to be made without re-deploying the project, or if there is only trivial code associated with the page.
+	</span>
+	<span class=""><br><span style="display: none;" id="AspCodeBehind__body" name="AspCodeBehind__body" class="stylepoint_body">
+		<p>
+			For example, an ASPX page may contain nothing but user controls and layout.  In this case, use code behind
+			or code in front at your option.
+		</p>
+	</span>
+  </span>
+  
+</span>
+
+<span class=""><h2 id="WCF" name="WCF">Services</h2>
+  <p>
+	
+  </p>
+
+  <span class=""><h3><a id="AspWsI" name="AspWsI">Service Interfaces</a></h3>
+	<span id="AspWsI__button" name="AspWsI__button" onclick="javascript:ShowHideByName('AspWsI__body','AspWsI__button')" class="showhide_button">▶</span>
+  	<span class="">
+		Services should return false on internal error and take intrinstic types, or struct's of intrinsic types, as arguments.  
+		Do NOT use XmlDocument, nor a string with XML content, as an argument or return.  Do not allow service methods to throw
+		exceptions.
+	</span>      
+	<span class=""><br><span style="display: none;" id="AspWsI__body" name="AspWsI__body" class="stylepoint_body">
+		<p>The intent of these rules is to make the interface portable, but without introducting an excessive burden on the programmer.</p>
+	</span>
+  </span>
+
+  <span class=""><h3><a id="AspWs" name="AspWs">Service Code File</a></h3>
+	<span id="AspWs__button" name="AspWs__button" onclick="javascript:ShowHideByName('AspWs__body','AspWs__button')" class="showhide_button">▶</span>
+  	<span class="">Put application logic in a DLL that is reference by the service, not directly in service source file.
+	</span>      
+	<span class=""><br><span style="display: none;" id="AspWs__body" name="AspWs__body" class="stylepoint_body">
+		<p>
+			To simplify unit testing, all of the application logic should be in a DLL.
+		</p>
+	</span>
+  </span>
+
+  <span class=""><h3><a id="AspSOA" name="AspSOA">Service Use &amp; SOA</a></h3>
+	<span id="AspSOA__button" name="AspSOA__button" onclick="javascript:ShowHideByName('AspSOA__body','AspSOA__button')" class="showhide_button">▶</span>
+  	<span class="">Do not use services unless there is a business requirement for remote access.
+	</span>      
+	<span class=""><br><span style="display: none;" id="AspSOA__body" name="AspSOA__body" class="stylepoint_body">
+		<p>
+			Much like RPC, distributed objects, DCOM, and CORBA before it, SOA encourages 
+			developers to introduce unnecessary tiers into their applications.  This kind of tiering can 
+			easily increase the code size by 20%, without adding any functionality for the user.  It also 
+			violates design principle #1 -- keep it simple.
+		</p>
+	</span>
+  </span>
+  
+</span>
+
+<span class=""><h2 id="UI" name="UI">User Interface</h2>
+  <p>
+    
+  </p>
+  <span class=""><h3><a id="UiModes" name="UiModes">Modes</a></h3>
+	<span id="UiModes__button" name="UiModes__button" onclick="javascript:ShowHideByName('UiModes__body','UiModes__button')" class="showhide_button">▶</span>
+  	<span class="">
+		Pages and forms should only have one mode, or provide a visual context for the mode change.
+		Another way to say the same thing is that all controls visible on a form must be valid
+		for use at any time and forms do not dyanmically reconfigure their UI.
+	</span>      
+	<span class=""><br><span style="display: none;" id="UiModes__body" name="UiModes__body" class="stylepoint_body">
+		<p>
+      Consider the following UI:
+		</p>
+      <table>
+      <tr><td>Field A:</td><td><input type='text' /><input type=button value='Search A'/></td></tr>
+      <tr><td>Field B:</td><td><input type='text' /><input type=button value='Search B'/></td></tr>
+      <tr><td>Data:</td><td><input type=text/></td></tr>
+      <tr><td colspan=2>&nbsp;</td></tr>
+      <tr><td colspan=2 align=center><input type=button value='Update' /></td></tr>
+      </table>
+      <p>This is supposed to work as follows:
+      <ul>
+        <li>
+          The user enters a value in Field A, clicks search and the located record is 
+          displayed for edit.
+        </li>
+        <li>
+          The user enters a value in Field B, clicks search and the located record is 
+          displayed for edit.
+        </li>
+        <li>
+			The user changes Field A, Field B, and/or Data, and then updates the database
+			by clicking Update.
+        </li>
+      </ul>
+      <p>
+		This form has 3 modes: search on a, search on b, and update.  The problems start when 
+		the user mixes these modes.  For example, after a search the UI assumes that
+		the user will either edit fields and click update, or change one of the search fields
+		and click the correct search button.  But what if the user edits Field A, edits Data, 
+		but then click Search A?  The system must either discard the changes or update the 
+		current record before running the search.
+      </p>
+      <p>
+		You might think this problem can be solved by using a 
+		confirmation dialog.  However, the even a simple form like this one has too many
+		modes to be resolved this way.  If the user changes Field A
+		and then clicks Search B, should the system confirm the update or confirm whether
+		the user meant to click Search A?  To determine what the user really meant, you 
+		would need to string together a series of dialogs "Did you really mean to click
+		Search A? Yes/No" and "If no, do you want to save your changes? Yes/No".  Not exactly
+		an user friendly solution.
+      </p>
+	  <span id="UiModes2__button" name="UiModes2__button" onclick="javascript:ShowHideByName('UiModes2__body','UiModes2__button')" class="showhide_button">▶</span>
+      <span>
+		The easiest way to resolve mode problems is to create seperate screen for each
+		mode.  The UI above could be split into search and edit screens.  The search results 
+		can have an	edit link that to goes to the edit page.  The edit page has update and cancel
+		buttons.  All controls are valid to be edited or click without any ambiguitity.
+      </span>
+	  <span style="display: none;" id="UiModes2__body" name="UiModes2__body" class="stylepoint_body">
+		<blockquote>
+			<table>
+			<tr><td colspan=2>Record Search</td></tr>
+			<tr><td><input type=text value='bob'/> <input type=button value=Search /></td></tr>
+			<tr><td>&nbsp;</td></tr>
+			<tr><td>bob record 1 <a href='#'>edit</a></td></tr>
+			<tr><td>bob record 2 <a href='#'>edit</a></td></tr>
+			<tr><td>bob record 3 <a href='#'>edit</a></td></tr>
+			<tr><td colspan=2>&nbsp;</td></tr>
+			</table>
+			<br />
+			<table>
+			<tr><td colspan=2>Record Edit</td></tr>
+			<tr><td>Field A:</td><td><input type='text' value='bob 1 A' /></td></tr>
+			<tr><td>Field B:</td><td><input type='text' value='bob 1 B' /></td></tr>
+			<tr><td>Data:</td><td><input type=text value='bobs data' /></td></tr>
+			<tr><td colspan=2>&nbsp;</td></tr>
+			<tr><td colspan=2 align=center><input type=button value='Update' />&nbsp;&nbsp;&nbsp;<input type=button value='Cancel' /></td></tr>
+			</table>
+
+		</blockquote>
+      </span>
+      <p>
+		Some UI's can accomidate multiple modes by create a visual context for the mode
+		change.  The tab control is the most common context control.
+      </p>
+	</span>
+  </span>
+  
+  <span class=""><h3><a id="UiWeird" name="UiWeird">No Surprises</a></h3>
+	<span id="UiWeird__button" name="UiWeird__button" onclick="javascript:ShowHideByName('UiWeird__body','UiWeird__button')" class="showhide_button">▶</span>
+  	<span class="">
+		The UI should be designed so that the user can anticipate what will happen when an element is
+		clicked or selected.
+	</span>      
+	<span class=""><br><span style="display: none;" id="UiWeird__body" name="UiWeird__body" class="stylepoint_body">
+		<p>
+		Users have learned though experience what to expect when using various UI controls such as buttons, 
+		links, text boxes, and so on.  If the application does something unexpected, the user has to 
+		stop and figure out what happened.  One of the central principles of usibility is, "where 
+		an expert pauses, a beginner will fail."  It's easy to avoid this problem by following common
+		conventions for the function of controls.
+		</p>
+		<ul>
+			<li>Buttons operate (do something, calculate, submit)</li>
+			<li>Calandars may be active or passive, depending on the UI context</li>
+			<li>Check boxes are zero to many and passive (they do not initate any action)</li>
+			<li>Drop down lists are passive</li>
+			<li>Images are passive, unless they clearly appear to be a button or link</li>
+			<li>Labels are passive</li>
+			<li>Links navigate (change pages, go somewhere else)</li>
+			<li>Radio buttons are mutually exclusive and passive</li>
+			<li>Text boxes are passive</li>
+		</ul>
+		<p>
+			For passive controls, real-time validation is acceptable as long as it does not
+			disrupt the user or reposition the focus.
+		</p>
+	</span>
+  </span>
+  
+</span>
+
+<span class=""><h2 id="ASP" name="ASP">Unit Testing</h2>
+  <p>
+	Unit tests should be written to achive at least 70% code coverage.  See 
+	<a href='http://en.wikipedia.org/wiki/Unit_testing'>http://en.wikipedia.org/wiki/Unit_testing</a>
+	for the purpose and benefits of unit testing.
+  </p>
+
+  <span class=""><h3><a id="UT_Tools" name="UT_Tools">Use of MSTest and NUnit</a></h3>
+	<span id="UT_Tools__button" name="UT_Tools__button" onclick="javascript:ShowHideByName('UT_Tools__body','UT_Tools__button')" class="showhide_button">▶</span>
+  	<span class="">
+		Projects can be configured to so that the unit tests will run with both NUnit and 
+		Visual Studio (MSTest).  See <a href='http://www.viridium.ro/2008/cruisecontrolnet-mstest-nunit-a-hybrid-solution/'>
+		http://www.viridium.ro/2008/cruisecontrolnet-mstest-nunit-a-hybrid-solution/</a> 
+		for details.
+	</span>
+	<span class=""><br><span style="display: none;" id="UT_Tools__body" name="UT_Tools__body" class="stylepoint_body">
+		<p>
+		Create the unit tests using Visual Studio's integrated unit test tools.  
+		After creating new CS files in the test project, replace 
+		"<code>using Microsoft.VisualStudio.TestTools.UnitTesting;</code>" in 
+		the import section with the following.
+		</p>
+		<span>
+		<pre>
+#if INTEGRATION
+using ExpectedException = NUnit.Framework.ExpectedExceptionAttribute;
+using Assert = NUnit.Framework.Assert;
+using TestMethod = NUnit.Framework.TestAttribute;
+using TestClass = NUnit.Framework.TestFixtureAttribute;
+using TestInitialize = NUnit.Framework.SetUpAttribute;
+using TestCleanup = NUnit.Framework.TearDownAttribute;
+using TestContext = System.Object;
+#else
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
+		</pre></span>
+	</span>
+  </span>
+
+  <span class=""><h3><a id="UT_NMock" name="UT_NMock">NMock</a></h3>
+	<span id="UT_NMock__button" name="UT_NMock__button" onclick="javascript:ShowHideByName('UT_NMock__body','UT_NMock__button')" class="showhide_button">▶</span>
+  	<span class="">
+		Use NMock2 to isolate a single class for unit testing and to verify 
+		sequence, interaction, and state behavior.
+	</span>
+	<span class=""><br><span style="display: none;" id="UT_NMock__body" name="UT_NMock__body" class="stylepoint_body">
+		<p>
+			<a href='http://www.nmock.org/'>http://www.nmock.org/</a>
+		</p>
+	</span>
+  </span>
+  
+  <span class=""><h3><a id="UT_CI" name="UT_CI">Continuous Integration</a></h3>
+	<span id="UT_CI__button" name="UT_CI__button" onclick="javascript:ShowHideByName('UT_CI__body','UT_CI__button')" class="showhide_button">▶</span>
+  	<span class="">
+		A continuous integration server is used to detect build errors 
+		and unit test failures as soon as possible, as well as to provide
+		project metrics.
+	</span>
+	<span class=""><br><span style="display: none;" id="UT_CI__body" name="UT_CI__body" class="stylepoint_body">
+		<p>
+			<a href='http://confluence.public.thoughtworks.org/display/CCNET/Welcome+to+CruiseControl.NET'>CruiseControl.net</a> is the recommended CI server.
+		</p>
+	</span>
+  </span>
+
+</span>
+
+</span>
+
+<h2>Parting Words</h2>
+  <p>
+    Use common sense, be consistent, and <em>KEEP IT SIMPLE</em>.
+  </p>
+  <p>
+    If you are editing code, take a few minutes to look at the
+    code around you and determine its style. If they use spaces
+    around their <code>if</code> clauses, you should, too. If
+    their comments have little boxes of stars around them, make
+    your comments have little boxes of stars around them too.
+  </p>
+  <p>
+    The point of having style guidelines is to have a common
+    vocabulary of coding so people can concentrate on what you are
+    saying, rather than on how you are saying it.  We present
+    global style rules here so people know the vocabulary. But
+    local style is also important.  If code you add to a file
+    looks drastically different from the existing code around it,
+    the discontinuity throws readers out of their rhythm when they
+    go to read it. Try to avoid this.
+  </p>
+  
+  <p>
+    OK, enough writing about writing code; the code itself is much
+    more interesting. Have fun!
+  </p>
+
+
+<hr>
+
+
+
+<address>
+Orignal Google developers:<br>
+Benjy Weinberger<br>
+Craig Silverstein<br>
+Gregory Eitzmann<br>
+Mark Mentovai<br>
+Tashana Landray<br>
+&nbsp;<br>
+Modified and extended by<br>John Garrison
+</address>
+
+</body></html>
